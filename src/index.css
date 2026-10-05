@@ -3,22 +3,89 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   Design tokens — edit the palette here (space-separated RGB so
-   Tailwind opacity modifiers like bg-accent/10 keep working).
+   Theme tokens. Space-separated RGB so Tailwind opacity modifiers work
+   (bg-accent/10). Every component reads these — never hardcode colours.
+   Themes: skyline (default) · mono · warm · dark
 ------------------------------------------------------------------- */
-:root {
-  --paper: 247 246 242;      /* warm off-white background   */
-  --surface: 255 255 255;    /* raised panels               */
-  --ink: 14 15 18;           /* near-black text             */
-  --muted: 104 106 114;      /* secondary text              */
-  --line: 226 224 217;       /* hairline borders            */
-  --accent: 50 100 201;      /* Skyline Webx blue (from logo) #3264C9 */
-  --accent-ink: 255 255 255; /* text on accent              */
+:root,
+[data-theme='skyline'] {
+  --background: 250 250 247;
+  --surface: 255 255 255;
+  --foreground: 13 14 18;
+  --muted: 104 107 116;
+  --border: 223 222 215;
+  --accent: 50 100 201; /* Skyline blue, sampled from the logo (#3264C9) */
+  --accent-foreground: 255 255 255;
+  color-scheme: light;
+}
+[data-theme='mono'] {
+  --background: 255 255 255;
+  --surface: 246 246 246;
+  --foreground: 10 10 10;
+  --muted: 108 108 108;
+  --border: 228 228 228;
+  --accent: 10 10 10;
+  --accent-foreground: 255 255 255;
+  color-scheme: light;
+}
+[data-theme='warm'] {
+  --background: 244 238 228;
+  --surface: 250 246 239;
+  --foreground: 34 27 21;
+  --muted: 118 104 90;
+  --border: 222 211 194;
+  --accent: 184 78 40;
+  --accent-foreground: 255 248 240;
+  color-scheme: light;
+}
+[data-theme='dark'] {
+  --background: 11 12 15;
+  --surface: 19 21 26;
+  --foreground: 236 236 230;
+  --muted: 142 145 154;
+  --border: 40 42 50;
+  --accent: 112 152 238;
+  --accent-foreground: 11 12 15;
+  color-scheme: dark;
+}
 
-  --gutter: clamp(16px, 4vw, 56px);
-  --section-y: clamp(88px, 12vw, 176px);
+/* Accent inside inverse (bg-foreground) sections, tuned per theme for contrast. */
+.inverse,
+[data-theme='skyline'] .inverse {
+  --accent: 128 164 242;
+  --accent-foreground: 11 12 15;
+}
+[data-theme='mono'] .inverse {
+  --accent: 255 255 255;
+  --accent-foreground: 10 10 10;
+}
+[data-theme='warm'] .inverse {
+  --accent: 236 146 104;
+  --accent-foreground: 34 27 21;
+}
+[data-theme='dark'] .inverse {
+  --accent: 50 100 201;
+  --accent-foreground: 255 255 255;
+}
+
+:root {
+  --gutter: clamp(16px, 3.4vw, 48px);
+  --section-y: clamp(64px, 8vw, 128px);
+  --nav-h: 64px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --nav-h: 72px;
+}
+
+/* Smooth cross-fade while switching themes (class added for ~600ms only). */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.6s var(--ease-out),
+    border-color 0.6s var(--ease-out),
+    color 0.6s var(--ease-out),
+    fill 0.6s var(--ease-out),
+    stroke 0.6s var(--ease-out) !important;
 }
 
 @layer base {
@@ -28,6 +95,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-padding-top: var(--nav-h);
+    background: rgb(var(--background));
   }
   html.lenis,
   html.lenis body {
@@ -40,19 +108,19 @@
     overflow: hidden;
   }
   body {
-    @apply bg-paper font-sans text-ink;
+    @apply bg-background font-sans text-foreground;
     font-size: 16px;
     line-height: 1.6;
     overflow-x: clip;
   }
   ::selection {
     background: rgb(var(--accent));
-    color: rgb(var(--accent-ink));
+    color: rgb(var(--accent-foreground));
   }
   :focus-visible {
     outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 2px;
   }
   img {
     max-width: 100%;
@@ -61,122 +129,109 @@
 }
 
 @layer components {
-  .container-site {
-    @apply mx-auto w-full max-w-site;
+  /* The ruled frame: content sits between two vertical hairlines. */
+  .frame {
+    @apply mx-auto w-full max-w-site border-x border-border;
+  }
+  .pad {
     padding-inline: var(--gutter);
   }
   .section {
     padding-block: var(--section-y);
   }
-  /* Mono micro-label used across the site */
-  .eyebrow {
-    @apply font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-muted;
-  }
+
+  /* Type system */
   .display {
-    @apply font-display font-medium;
-    letter-spacing: -0.035em;
-    line-height: 0.95;
+    @apply font-display uppercase;
+    font-weight: 600;
+    font-stretch: 76%;
+    letter-spacing: -0.02em;
+    line-height: 0.86;
   }
-  .h-section {
-    @apply font-display font-medium;
-    font-size: clamp(2.5rem, 6.2vw, 5.75rem);
-    letter-spacing: -0.035em;
-    line-height: 0.95;
+  .display-md {
+    @apply font-display;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .meta {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em];
   }
   .lede {
     @apply text-muted;
-    font-size: clamp(1rem, 1.25vw, 1.125rem);
-    line-height: 1.65;
-  }
-  .hairline {
-    @apply border-line;
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.6;
   }
 
   /* Buttons */
   .btn {
-    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 font-display text-[15px] font-medium tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow] duration-300;
+    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2.5 overflow-hidden rounded-full px-6 font-mono text-[12px] font-medium uppercase tracking-[0.12em] transition-[background-color,color,border-color] duration-300;
     transition-timing-function: var(--ease-out);
   }
-  .btn-primary {
-    @apply bg-ink text-paper hover:bg-accent;
-  }
   .btn-accent {
-    @apply bg-accent text-accent-ink hover:bg-ink;
+    @apply bg-accent text-accent-foreground hover:bg-foreground hover:text-background;
   }
-  .btn-ghost {
-    @apply border border-ink/15 bg-transparent text-ink hover:border-ink;
+  .btn-solid {
+    @apply bg-foreground text-background hover:bg-accent hover:text-accent-foreground;
   }
-  .btn-on-dark {
-    @apply border border-white/20 text-white hover:border-white;
+  .btn-line {
+    @apply border border-foreground/20 text-foreground hover:border-foreground;
+  }
+  .btn .btn-arrow {
+    transition: transform 0.45s var(--ease-out);
+  }
+  .btn:hover .btn-arrow {
+    transform: translate(2px, -2px);
   }
 
-  /* Underline link with sliding rule */
+  .chip {
+    @apply inline-flex items-center rounded-full border border-border px-2.5 py-1 font-mono text-[10.5px] uppercase leading-none tracking-[0.08em] text-muted;
+  }
+
   .link-rule {
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.4s var(--ease-out);
+    transition: background-size 0.45s var(--ease-out);
   }
   .link-rule:hover,
-  .link-rule:focus-visible {
+  .link-rule:focus-visible,
+  .group:hover .link-rule {
     background-size: 100% 1px;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  .text-pretty {
-    text-wrap: pretty;
-  }
-}
-
-/* ------------------------------------------------------------------
-   Hero grid — fine blueprint grid with a cursor-following lens.
-   Works as a static grid with JS disabled.
-------------------------------------------------------------------- */
-.hero-grid {
-  --mx: 70%;
-  --my: 35%;
+/* Blueprint grid with a cursor-following lens (hero). Static without JS. */
+.grid-bg {
   background-image:
-    linear-gradient(to right, rgb(var(--ink) / 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--ink) / 0.055) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(to right, rgb(var(--foreground) / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--foreground) / 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
   background-position: -1px -1px;
-  mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
 }
-.hero-grid-lens {
+.grid-lens {
+  --mx: 50%;
+  --my: 50%;
   background-image:
-    linear-gradient(to right, rgb(var(--accent) / 0.6) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--accent) / 0.6) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(to right, rgb(var(--accent) / 0.7) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--accent) / 0.7) 1px, transparent 1px);
+  background-size: 48px 48px;
   background-position: -1px -1px;
-  mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000 0%, transparent 70%);
-  -webkit-mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000 0%, transparent 70%);
+  mask-image: radial-gradient(220px circle at var(--mx) var(--my), #000 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(220px circle at var(--mx) var(--my), #000 0%, transparent 72%);
   opacity: 0;
   transition: opacity 0.5s var(--ease-out);
 }
-.hero-grid-lens.is-active {
+.grid-lens.is-active {
   opacity: 1;
 }
 
-/* Marquee */
-.marquee-track {
-  animation: marquee 38s linear infinite;
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-@keyframes marquee {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+/* Diagonal hatch used in empty cells */
+.hatch {
+  background-image: repeating-linear-gradient(-45deg, rgb(var(--foreground) / 0.12) 0 1px, transparent 1px 9px);
 }
 
-/* Pulsing availability dot */
 .pulse-dot::after {
   content: '';
   position: absolute;
@@ -196,32 +251,9 @@
   }
 }
 
-/* Typing indicator in the AI mockup */
-.typing span {
-  animation: typing 1.2s infinite ease-in-out;
-}
-.typing span:nth-child(2) {
-  animation-delay: 0.15s;
-}
-.typing span:nth-child(3) {
-  animation-delay: 0.3s;
-}
-@keyframes typing {
-  0%,
-  60%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.35;
-  }
-  30% {
-    transform: translateY(-3px);
-    opacity: 1;
-  }
-}
-
 /* Form fields */
 .field {
-  @apply w-full rounded-none border-0 border-b border-ink/15 bg-transparent px-0 pb-3 pt-2 font-display text-[18px] text-ink outline-none transition-colors duration-300 placeholder:text-muted/60;
+  @apply w-full rounded-none border-0 border-b border-foreground/20 bg-transparent px-0 pb-3 pt-2 font-display text-[18px] text-foreground outline-none transition-colors duration-300 placeholder:text-muted/60;
 }
 .field:focus {
   @apply border-accent;
@@ -230,7 +262,14 @@
   outline: none;
 }
 .field[aria-invalid='true'] {
-  border-color: #c2412d;
+  border-color: #d0452f;
+}
+
+/* Custom cursor: hide the native one only over labelled areas, fine pointers only. */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor [data-cursor] {
+    cursor: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -241,8 +280,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-  .marquee-track {
-    animation: none;
   }
 }

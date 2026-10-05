@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { ScrollProvider } from './lib/scroll'
+import { ThemeProvider } from './lib/theme'
 import Loader from './components/Loader'
 import Navbar from './components/Navbar'
+import Cursor from './components/Cursor'
 import Hero from './components/Hero'
-import Marquee from './components/Marquee'
-import Statement from './components/Statement'
+import Reel from './components/Reel'
+import ProjectShowcase from './components/ProjectShowcase'
+import AIShowcase from './components/AIShowcase'
+import Ticker from './components/Ticker'
 import About from './components/About'
 import Services from './components/Services'
-import AISection from './components/AISection'
-import Projects from './components/Projects'
-import Process from './components/Process'
-import Approach from './components/Approach'
 import CTA from './components/CTA'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
-const LOADER_MS = 1150
+const LOADER_MS = 1250
 const SEEN_KEY = 'swx-intro-seen'
 
-/** Show the intro once per session, never with reduced motion or a deep link. */
+/** Intro plays once per session; skipped for reduced motion or a deep link. */
 function shouldShowLoader() {
   try {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
@@ -47,23 +47,26 @@ export default function App() {
   }, [loading])
 
   return (
-    <ScrollProvider>
-      <AnimatePresence>{loading && <Loader key="loader" />}</AnimatePresence>
-      <Navbar />
-      <main id="main" tabIndex={-1} className="outline-none">
-        <Hero ready={!loading} />
-        <Marquee />
-        <Statement />
-        <About />
-        <Services />
-        <AISection />
-        <Projects />
-        <Process />
-        <Approach />
-        <CTA />
-        <Contact />
-      </main>
-      <Footer />
-    </ScrollProvider>
+    <ThemeProvider>
+      <ScrollProvider>
+        <AnimatePresence>{loading && <Loader key="loader" duration={LOADER_MS - 150} />}</AnimatePresence>
+        <Navbar ready={!loading} />
+        <Cursor />
+        <main id="main" tabIndex={-1} className="outline-none">
+          <Hero ready={!loading} />
+          <div className="frame">
+            <Reel />
+          </div>
+          <ProjectShowcase />
+          <AIShowcase />
+          <About />
+          <Ticker />
+          <Services />
+          <CTA />
+          <Contact />
+        </main>
+        <Footer />
+      </ScrollProvider>
+    </ThemeProvider>
   )
 }

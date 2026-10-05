@@ -6,22 +6,19 @@ import { useAnchorClick } from '../lib/scroll'
 export default function Footer() {
   const onAnchor = useAnchorClick()
   return (
-    <footer className="border-t border-line bg-surface">
-      <div className="container-site pt-16 md:pt-20">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
-            <Logo size={40} />
-            <p className="mt-5 max-w-[28ch] font-display text-[22px] font-medium leading-[1.2] tracking-[-0.02em]">
-              {brand.tagline}
-            </p>
-            <a href={`mailto:${brand.email}`} className="link-rule mt-5 inline-block text-[15px] text-muted hover:text-ink">
+    <footer className="border-t border-border">
+      <div className="frame">
+        <div className="grid md:grid-cols-12">
+          <div className="pad py-10 md:col-span-5">
+            <Logo size={36} />
+            <p className="mt-5 max-w-[24ch] font-display text-[22px] font-medium leading-[1.2] tracking-[-0.02em]">{brand.tagline}</p>
+            <a href={`mailto:${brand.email}`} className="link-rule mt-4 inline-block text-[15px] text-muted hover:text-foreground">
               {brand.email}
             </a>
           </div>
-
-          <nav className="md:col-span-2 md:col-start-8" aria-label="Footer">
-            <p className="eyebrow mb-4">Navigate</p>
-            <ul className="space-y-2.5">
+          <nav className="pad border-t border-border py-10 md:col-span-3 md:border-l md:border-t-0" aria-label="Footer">
+            <p className="meta mb-4 text-muted">Navigate</p>
+            <ul className="space-y-2">
               {nav.map((n) => (
                 <li key={n.href}>
                   <a href={n.href} onClick={onAnchor} className="link-rule text-[15px] font-medium">
@@ -31,10 +28,9 @@ export default function Footer() {
               ))}
             </ul>
           </nav>
-
-          <div className="md:col-span-2">
-            <p className="eyebrow mb-4">Social</p>
-            <ul className="space-y-2.5">
+          <div className="pad border-t border-border py-10 md:col-span-3 md:border-l md:border-t-0">
+            <p className="meta mb-4 text-muted">Social</p>
+            <ul className="space-y-2">
               {socials.map((s) => (
                 <li key={s.label}>
                   <a href={s.href} target="_blank" rel="noopener noreferrer" className="link-rule text-[15px] font-medium">
@@ -44,12 +40,11 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-
-          <div className="md:col-span-1 md:justify-self-end">
+          <div className="flex items-start border-t border-border p-[var(--gutter)] md:col-span-1 md:justify-center md:border-l md:border-t-0 md:py-10">
             <a
               href="#top"
               onClick={onAnchor}
-              className="grid h-12 w-12 place-items-center rounded-full border border-line transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+              className="grid h-12 w-12 place-items-center rounded-full border border-border transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
               aria-label="Back to top"
             >
               <ArrowUp size={18} strokeWidth={1.75} />
@@ -57,15 +52,16 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Oversized wordmark */}
-        <p
-          className="mt-16 select-none whitespace-nowrap font-display text-[clamp(3rem,15vw,14rem)] font-medium leading-[0.8] tracking-[-0.055em] text-ink md:mt-24"
-          aria-hidden="true"
-        >
-          Skyline Webx<span className="text-accent">.</span>
-        </p>
+        <div className="overflow-hidden border-t border-border">
+          <p
+            className="display select-none whitespace-nowrap px-[var(--gutter)] pt-6 text-[clamp(3.5rem,17.5vw,16rem)] leading-[0.8]"
+            aria-hidden="true"
+          >
+            Skyline Webx<span className="text-accent">.</span>
+          </p>
+        </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-line py-6 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="pad flex flex-col gap-2 border-t border-border py-5 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {brand.year} Skyline Webx. All rights reserved.</p>
           <p>{brand.location}</p>
         </div>

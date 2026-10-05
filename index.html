@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="skyline">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Ayla — Web Designer &amp; Developer | Skyline Webx</title>
     <meta name="description" content="Skyline Webx creates premium websites and digital experiences for modern businesses." />
     <link rel="canonical" href="https://skylinewebx.com" />
-    <meta name="theme-color" content="#F7F6F2" />
+    <meta name="theme-color" content="#FAFAF7" />
     <meta name="author" content="Ayla — Skyline Webx" />
 
     <meta property="og:type" content="website" />
@@ -26,11 +26,19 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    <!-- Apply the saved theme before first paint (no flash). Keep in sync with src/lib/theme.jsx -->
+    <script>
+      try {
+        var t = localStorage.getItem('swx-theme')
+        if (t && /^(skyline|mono|warm|dark)$/.test(t)) document.documentElement.setAttribute('data-theme', t)
+      } catch (e) {}
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
     <script type="application/ld+json">
@@ -40,7 +48,7 @@
         "name": "Skyline Webx",
         "url": "https://skylinewebx.com",
         "email": "info@skylinewebx.com",
-        "founder": { "@type": "Person", "name": "Ayla", "jobTitle": "Web Designer, Developer & Agency Owner" },
+        "founder": { "@type": "Person", "name": "Ayla", "jobTitle": "Web Designer, Web Developer & Agency Owner" },
         "address": { "@type": "PostalAddress", "addressLocality": "Houston", "addressRegion": "TX", "addressCountry": "US" },
         "sameAs": [
           "https://www.instagram.com/skylinewebx",

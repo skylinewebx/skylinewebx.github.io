@@ -1,62 +1,62 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
-import { cta } from '../data/site'
+import { brand, cta } from '../data/site'
 import { RevealLines, Reveal } from './ui/Reveal'
-import MagneticButton from './ui/MagneticButton'
 import { useAnchorClick } from '../lib/scroll'
 
+/** Accent band: giant type over a ruled row of actions (no floating button in empty space). */
 export default function CTA() {
   const onAnchor = useAnchorClick()
   return (
-    <section className="relative overflow-hidden bg-ink text-paper" aria-labelledby="cta-title">
-      {/* Fine grid + accent horizon */}
+    <section className="relative overflow-hidden border-t border-border bg-accent text-accent-foreground" aria-labelledby="cta-title">
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="pointer-events-none absolute inset-0 opacity-[0.12]"
         style={{
           backgroundImage:
-            'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
+            'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
         }}
         aria-hidden="true"
       />
-      <div
-        className="pointer-events-none absolute -bottom-1/2 left-1/2 h-[80%] w-[120%] -translate-x-1/2 rounded-[100%] bg-accent/25 blur-[120px]"
-        aria-hidden="true"
-      />
-
-      <div className="container-site section relative">
-        <Reveal>
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-paper/60">
-            <span className="text-accent">06</span>
-            <span className="mx-2 text-paper/30" aria-hidden="true">
-              /
-            </span>
-            Next step
-          </p>
-        </Reveal>
-        <h2
-          id="cta-title"
-          className="display mt-10 text-[clamp(2.4rem,6.4vw,7.25rem)] uppercase md:mt-14"
-        >
-          <RevealLines
-            lines={cta.title}
-            stagger={0.1}
-            renderLine={(line, i) => (i === 1 ? <span className="text-paper/45">{line}</span> : line)}
-          />
-        </h2>
-        <div className="mt-12 flex flex-col gap-10 border-t border-white/15 pt-8 md:mt-16 md:flex-row md:items-end md:justify-between">
+      <div className="frame relative border-accent-foreground/20">
+        <div className="pad py-12 md:py-16">
           <Reveal>
-            <p className="max-w-[36ch] text-[17px] leading-relaxed text-paper/70">{cta.copy}</p>
+            <p className="meta opacity-70">05 / Next step</p>
           </Reveal>
-          <Reveal delay={0.08} className="flex flex-col gap-3 sm:flex-row">
-            <MagneticButton href="#contact" onClick={onAnchor} className="btn btn-accent hover:!bg-paper hover:!text-ink">
-              Start a Project
-              <ArrowUpRight size={17} strokeWidth={1.75} aria-hidden="true" />
-            </MagneticButton>
-            <MagneticButton href="#work" onClick={onAnchor} className="btn btn-on-dark">
-              View Work
-              <ArrowDownRight size={17} strokeWidth={1.75} aria-hidden="true" />
-            </MagneticButton>
+          <h2 id="cta-title" className="display mt-8 text-[clamp(2.9rem,8.6vw,8.75rem)]">
+            <RevealLines lines={cta.title} stagger={0.09} />
+          </h2>
+          <Reveal delay={0.1}>
+            <p className="mt-8 max-w-[40ch] text-[17px] leading-relaxed opacity-80">{cta.copy}</p>
           </Reveal>
+        </div>
+
+        <div className="grid border-t border-accent-foreground/20 md:grid-cols-3">
+          <a
+            href="#contact"
+            onClick={onAnchor}
+            className="group flex min-h-[88px] items-center justify-between gap-4 bg-accent-foreground px-[var(--gutter)] py-6 text-accent transition-colors duration-300 hover:bg-foreground hover:text-background"
+          >
+            <span className="display text-[clamp(1.75rem,2.6vw,2.4rem)]">Start a Project</span>
+            <ArrowUpRight size={26} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-500 group-hover:rotate-45" />
+          </a>
+          <a
+            href="#work"
+            onClick={onAnchor}
+            className="group flex min-h-[88px] items-center justify-between gap-4 border-t border-accent-foreground/20 px-[var(--gutter)] py-6 transition-colors duration-300 hover:bg-accent-foreground/10 md:border-l md:border-t-0"
+          >
+            <span className="display text-[clamp(1.75rem,2.6vw,2.4rem)]">View Work</span>
+            <ArrowDownRight size={26} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-500 group-hover:translate-y-1" />
+          </a>
+          <a
+            href={`mailto:${brand.email}`}
+            className="group flex min-h-[88px] items-center justify-between gap-4 border-t border-accent-foreground/20 px-[var(--gutter)] py-6 transition-colors duration-300 hover:bg-accent-foreground/10 md:border-l md:border-t-0"
+          >
+            <span>
+              <span className="meta block opacity-70">Email</span>
+              <span className="mt-1 block text-[16px] font-medium">{brand.email}</span>
+            </span>
+            <ArrowUpRight size={20} strokeWidth={1.5} aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>

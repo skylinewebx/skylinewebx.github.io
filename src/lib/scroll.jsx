@@ -3,6 +3,9 @@ import Lenis from 'lenis'
 
 const ScrollContext = createContext({ scrollTo: () => {}, stop: () => {}, start: () => {} })
 
+/** Height of the fixed nav, read from the --nav-h token. */
+const navOffset = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 0
+
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -43,11 +46,11 @@ export function ScrollProvider({ children }) {
     if (target !== 0 && !el) return
     const offset = options.offset ?? 0
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(target === 0 ? 0 : el, { offset, duration: 1.2 })
+      lenisRef.current.scrollTo(target === 0 ? 0 : el, { offset, duration: 1.2, force: true }) // Lenis already honours scroll-padding-top
     } else if (target === 0) {
       window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     } else {
-      const top = el.getBoundingClientRect().top + window.scrollY + offset
+      const top = el.getBoundingClientRect().top + window.scrollY + offset - navOffset()
       window.scrollTo({ top, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     }
     // Move focus for keyboard + screen-reader users without a second jump.
@@ -73,9 +76,12 @@ export function useAnchorClick(onNavigate) {
       const href = event.currentTarget.getAttribute('href')
       if (!href || !href.startsWith('#')) return
       event.preventDefault()
-      onNavigate?.()
-      if (href === '#top') scrollTo(0)
-      else scrollTo(href)
+      const go = () => (href === '#top' ? scrollTo(0) : scrollTo(href))
+      if (onNavigate) {
+        // Let menus close (and release the scroll lock) before scrolling.
+        onNavigate()
+        requestAnimationFrame(() => requestAnimationFrame(go))
+      } else go()
       history.replaceState(null, '', href === '#top' ? ' ' : href)
     },
     [scrollTo, onNavigate],

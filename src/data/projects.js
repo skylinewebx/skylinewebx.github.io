@@ -1,130 +1,169 @@
 /**
- * Selected work. Add, remove or reorder projects here.
+ * Selected work — order here is the order on the page.
  *
- * Fields
- *  name, category, description, services[], technologies[]
- *  image        { src, srcSmall, alt }  — 1440×900 + 720×450 WebP screenshots
- *  liveUrl      string | null           — leave null until the live link is ready
- *  caseStudyUrl string | null           — leave null until a case study exists
- *  accent       project-specific accent (used only for small details)
- *  layout       'left' | 'right' | 'full' — image position in the showcase
+ * {
+ *   slug, title, category, description, technologies[],
+ *   liveUrl    string | null   — live website (primary "View project" link)
+ *   githubUrl  string | null   — source code (secondary link, or primary when there is no live site)
+ *   image      { desktop, desktopSm, mobile, alt } — real screenshots in src/assets/shots
+ *   accent     project colour, used only for small details
+ * }
  *
- * Planned subdomains (add as liveUrl once DNS is live):
- *  avadermatology / audira / meridian / goatburgerco .skylinewebx.com
+ * Layouts are assigned automatically in ProjectShowcase.jsx.
+ * Missing image? Set image to null — a clean placeholder is rendered instead.
  */
 
-import ava from '../assets/images/projects/ava-dermatology.webp'
-import avaSm from '../assets/images/projects/ava-dermatology-sm.webp'
-import audira from '../assets/images/projects/audira.webp'
-import audiraSm from '../assets/images/projects/audira-sm.webp'
-import meridian from '../assets/images/projects/meridian.webp'
-import meridianSm from '../assets/images/projects/meridian-sm.webp'
-import goat from '../assets/images/projects/goat-burger.webp'
-import goatSm from '../assets/images/projects/goat-burger-sm.webp'
-import mimo from '../assets/images/projects/mimo.webp'
-import mimoSm from '../assets/images/projects/mimo-sm.webp'
-import pearl from '../assets/images/projects/pearlcare.webp'
-import pearlSm from '../assets/images/projects/pearlcare-sm.webp'
-import maison from '../assets/images/projects/maison-ember.webp'
-import maisonSm from '../assets/images/projects/maison-ember-sm.webp'
+import lumina from '../assets/shots/lumina.webp'
+import luminaSm from '../assets/shots/lumina-sm.webp'
+import luminaM from '../assets/shots/lumina-m.webp'
+import noir from '../assets/shots/noir.webp'
+import noirSm from '../assets/shots/noir-sm.webp'
+import noirM from '../assets/shots/noir-m.webp'
+import ember from '../assets/shots/ember.webp'
+import emberSm from '../assets/shots/ember-sm.webp'
+import emberM from '../assets/shots/ember-m.webp'
+import slice from '../assets/shots/slice.webp'
+import sliceSm from '../assets/shots/slice-sm.webp'
+import sliceM from '../assets/shots/slice-m.webp'
+import mimo from '../assets/shots/mimo.webp'
+import mimoSm from '../assets/shots/mimo-sm.webp'
+import mimoM from '../assets/shots/mimo-m.webp'
+import cafe from '../assets/shots/cafe.webp'
+import cafeSm from '../assets/shots/cafe-sm.webp'
+import cafeM from '../assets/shots/cafe-m.webp'
+import meridian from '../assets/shots/meridian.webp'
+import meridianSm from '../assets/shots/meridian-sm.webp'
+import meridianM from '../assets/shots/meridian-m.webp'
+import soda from '../assets/shots/sksqueeze.webp'
+import sodaSm from '../assets/shots/sksqueeze-sm.webp'
+import sodaM from '../assets/shots/sksqueeze-m.webp'
+import strata from '../assets/shots/strata.webp'
+import strataSm from '../assets/shots/strata-sm.webp'
+import strataM from '../assets/shots/strata-m.webp'
+
+const shot = (desktop, desktopSm, mobile, alt) => ({ desktop, desktopSm, mobile, alt })
 
 export const projects = [
   {
-    slug: 'ava-dermatology',
-    name: 'Ava Dermatology',
-    category: 'Dermatology / Medical',
-    description:
-      'A calm, clinical-grade website for a modern dermatology practice — treatments, team and booking presented with the restraint patients expect from a medical brand.',
-    services: ['Website Design', 'Website Development', 'Responsive Build'],
-    technologies: ['HTML', 'CSS', 'JavaScript', 'WebGL hero'],
-    image: { src: ava, srcSmall: avaSm, alt: 'Ava Dermatology website homepage' },
-    liveUrl: null,
-    caseStudyUrl: null,
-    accent: '#B08A73',
-    layout: 'left',
-  },
-  {
-    slug: 'audira',
-    name: 'Audira Headphones',
-    category: 'Consumer / Audio',
-    description:
-      'A dark, bronze-lit storefront concept for a premium headphone brand, with product detail, cart, wishlist and a demo checkout flow.',
-    services: ['E-commerce Design', 'Front-end Development', 'UI/UX'],
-    technologies: ['HTML', 'CSS', 'JavaScript', 'Light / dark theme'],
-    image: { src: audira, srcSmall: audiraSm, alt: 'Audira headphones store homepage' },
-    liveUrl: null,
-    caseStudyUrl: null,
-    accent: '#C08A55',
-    layout: 'right',
-  },
-  {
-    slug: 'meridian',
-    name: 'Meridian Watches',
-    category: 'Luxury / E-commerce',
-    description:
-      'A cinematic luxury-watch e-commerce concept built around an interactive 3D timepiece, scroll-driven storytelling and a complete shop flow.',
-    services: ['Creative Direction', 'Website Development', 'E-commerce UX'],
-    technologies: ['Next.js', 'React Three Fiber', 'GSAP', 'Lenis', 'Tailwind CSS'],
-    image: { src: meridian, srcSmall: meridianSm, alt: 'Meridian Watches homepage with 3D watch' },
-    liveUrl: null,
-    caseStudyUrl: null,
-    accent: '#A88B4A',
-    layout: 'full',
-  },
-  {
-    slug: 'goat-burger',
-    name: 'GOAT Burger Co.',
-    category: 'Restaurant',
-    description:
-      'A scroll-controlled product film: the signature burger deconstructs layer by layer, then packs into a branded box before the menu appears.',
-    services: ['Concept & Motion', 'Website Development', 'Asset Preparation'],
-    technologies: ['GSAP ScrollTrigger', 'Lenis', 'HTML', 'CSS'],
-    image: { src: goat, srcSmall: goatSm, alt: 'GOAT Burger Co. homepage with a double cheeseburger' },
-    liveUrl: null,
-    caseStudyUrl: null,
-    accent: '#D4AF37',
-    layout: 'left',
-  },
-  {
-    slug: 'mimo-pet-care',
-    name: 'Mimo Pet Care & Grooming',
-    category: 'Pet Care',
-    description:
-      'A warm, friendly grooming studio site with services, pricing, gallery and booking — plus a simple owner edit mode for swapping photos.',
-    services: ['Website Design', 'Website Development', 'Content Structure'],
-    technologies: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Lenis'],
-    image: { src: mimo, srcSmall: mimoSm, alt: 'Mimo Pet Care & Grooming homepage' },
-    liveUrl: 'https://mimopetcare.skylinewebx.com',
-    caseStudyUrl: null,
-    accent: '#91352B',
-    layout: 'right',
-  },
-  {
-    slug: 'pearlcare-dental',
-    name: 'PearlCare Dental',
+    slug: 'lumina-dental',
+    title: 'Lumina Dental',
     category: 'Dental / Healthcare',
     description:
-      'An editorial dental practice website with serif typography, full-bleed imagery, a treatments slider and clear pricing.',
-    services: ['Website Design', 'Website Development', 'Motion'],
-    technologies: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Lenis'],
-    image: { src: pearl, srcSmall: pearlSm, alt: 'PearlCare Dental homepage' },
-    liveUrl: null,
-    caseStudyUrl: null,
-    accent: '#3E7C7B',
-    layout: 'full',
+      'A dark, luminous dental clinic site built around a glowing 3D tooth — calm motion, clear services and pricing, and an easy path to booking.',
+    technologies: ['Vite', 'Three.js', 'GSAP', 'Lenis'],
+    // Note: the provided URL (lumina_dental) does not resolve; the hyphenated domain serves the site.
+    liveUrl: 'https://lumina-dental.skylinewebx.com/',
+    githubUrl: null,
+    image: shot(lumina, luminaSm, luminaM, 'Lumina Dental homepage with a glowing 3D tooth'),
+    accent: '#3FD3C0',
+  },
+  {
+    slug: 'noir-crumb',
+    title: 'Noir Crumb',
+    category: 'Bakery / E-commerce',
+    description:
+      'A cinematic cookie brand: a hero cookie rendered in 3D, warm gold-on-black art direction and a shop that feels like a dessert counter.',
+    technologies: ['React', 'React Three Fiber', 'GSAP', 'Lenis', 'Tailwind CSS'],
+    liveUrl: 'https://noir-crumb.skylinewebx.com/',
+    githubUrl: null,
+    image: shot(noir, noirSm, noirM, 'Noir & Crumb homepage with a chocolate chip cookie'),
+    accent: '#D9A55B',
   },
   {
     slug: 'maison-ember',
-    name: 'Maison Ember',
-    category: 'Hospitality / Lifestyle',
+    title: 'Maison Ember',
+    category: 'Hospitality / Fine dining',
     description:
-      'An atmospheric hospitality website for a restaurant brand — moody imagery, considered pacing and a menu that reads like the room feels.',
-    services: ['Website Design', 'Website Development', 'Motion'],
+      'A dark European fine-dining site for Houston — atmospheric imagery, considered pacing and a reservation path that stays in reach.',
     technologies: ['Next.js', 'Tailwind CSS', 'GSAP', 'Lenis'],
-    image: { src: maison, srcSmall: maisonSm, alt: 'Maison Ember restaurant homepage' },
+    liveUrl: 'https://maison-ember.skylinewebx.com/',
+    githubUrl: null,
+    image: shot(ember, emberSm, emberM, 'Maison Ember restaurant homepage'),
+    accent: '#C7652E',
+  },
+  {
+    slug: 'slice-and-stack',
+    title: 'Slice & Stack',
+    category: 'Restaurant / Ordering',
+    description:
+      'Wood-fired pizza and flame-grilled burgers with a build-your-own ordering flow, cart and offers — bold, appetising and fast on mobile.',
+    technologies: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://slice-and-stack.skylinewebx.com/',
+    githubUrl: null,
+    image: shot(slice, sliceSm, sliceM, 'Slice & Stack pizza and burger homepage'),
+    accent: '#FF7A1A',
+  },
+  {
+    slug: 'mimo-pet-care',
+    title: 'Mimo Pet Care',
+    category: 'Pet care / Grooming',
+    description:
+      'A warm, friendly grooming studio site with services, pricing, gallery and booking — plus a simple owner edit mode for swapping photos.',
+    technologies: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Lenis'],
+    liveUrl: 'https://mimopetcare.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/mimo-pet-care',
+    image: shot(mimo, mimoSm, mimoM, 'Mimo Pet Care & Grooming homepage'),
+    accent: '#91352B',
+  },
+  {
+    slug: 'maison-cafe',
+    title: 'Maison Cafe',
+    category: 'Cafe / Coffee house',
+    description:
+      'A slow-crafted coffee house site with cinematic looping video, menu, story and visit pages — built to feel like the first sip.',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'Looping video'],
+    liveUrl: 'https://maisoncafe.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/maison-cafe-website',
+    image: shot(cafe, cafeSm, cafeM, 'Maison Cafe coffee house homepage'),
+    accent: '#B9773F',
+  },
+  {
+    slug: 'meridian-watches',
+    title: 'Meridian Watches',
+    category: 'Luxury / E-commerce',
+    description:
+      'An immersive luxury-watch concept with an interactive 3D timepiece, scroll-driven storytelling and a complete shop flow.',
+    technologies: ['Next.js', 'React Three Fiber', 'GSAP', 'Lenis', 'Tailwind CSS'],
     liveUrl: null,
-    caseStudyUrl: null,
-    accent: '#B4532A',
-    layout: 'left',
+    githubUrl: 'https://github.com/skylinewebx/meridian-watches',
+    image: shot(meridian, meridianSm, meridianM, 'Meridian Watches homepage with a 3D gold watch'),
+    accent: '#C9A24A',
+  },
+  {
+    slug: 'sk-squeeze-soda',
+    title: 'SK Squeeze Soda',
+    category: 'Beverage / Storefront',
+    description:
+      'A premium sparkling soda storefront with original vector cans, scroll-driven can entrances, ten flavours and a full demo checkout.',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'GSAP ScrollTrigger'],
+    liveUrl: null,
+    githubUrl: 'https://github.com/skylinewebx/sk-squeeze-soda',
+    image: shot(soda, sodaSm, sodaM, 'SK Squeeze soda homepage with a citrus can'),
+    accent: '#F29A1F',
+  },
+  {
+    slug: 'strata-renovation',
+    title: 'Strata Renovation',
+    category: 'Home renovation / Design studio',
+    description:
+      'A dark, architectural renovation studio site with a video hero, project work, services and a save-to-list feature for ideas.',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'Video hero'],
+    liveUrl: 'https://strata-renovation.skylinewebx.com/',
+    githubUrl: null,
+    image: shot(strata, strataSm, strataM, 'Strata renovation studio homepage with a walnut kitchen'),
+    accent: '#C08457',
   },
 ]
+
+/** Primary link for a project: live site first, then GitHub. */
+export const primaryLink = (p) =>
+  p.liveUrl ? { href: p.liveUrl, label: 'View project', kind: 'live' } : p.githubUrl ? { href: p.githubUrl, label: 'View on GitHub', kind: 'github' } : null
+
+export const hostOf = (url) => {
+  try {
+    const u = new URL(url)
+    return u.hostname === 'github.com' ? `github.com${u.pathname}` : u.hostname
+  } catch {
+    return url
+  }
+}

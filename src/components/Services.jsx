@@ -1,61 +1,60 @@
 import { ArrowUpRight } from 'lucide-react'
 import { services } from '../data/site'
-import SectionHeading from './SectionHeading'
-import { Reveal } from './ui/Reveal'
+import SectionHead from './SectionHead'
+import { Reveal, RevealLines } from './ui/Reveal'
 
-/**
- * Editorial numbered rows. On hover (fine pointers) an ink panel sweeps up
- * behind the row and the type inverts; on touch the rows are simply static.
- */
+/** Sticky heading + editorial numbered list. Hover sweeps a panel in behind the row. */
 export default function Services() {
   return (
-    <section id="services" className="section" aria-labelledby="services-title">
-      <div className="container-site">
-        <SectionHeading
-          id="services-title"
-          index="02"
-          label="Services"
-          title={<span className="uppercase">What I build</span>}
-          intro="Design and development for businesses that want their website to feel as considered as the work they do."
-          aside={`${String(services.length).padStart(2, '0')} services`}
-        />
+    <section id="services" className="border-t border-border" aria-labelledby="services-title">
+      <div className="frame">
+        <SectionHead index="04" label="Services" aside={`(${String(services.length).padStart(2, '0')}) services`} />
+        <div className="grid lg:grid-cols-12">
+          <div className="pad border-b border-border py-10 lg:col-span-4 lg:border-b-0 lg:py-14">
+            <div className="lg:sticky lg:top-[calc(var(--nav-h)+40px)]">
+              <h2 id="services-title" className="display text-[clamp(3.5rem,9vw,7.5rem)]">
+                <RevealLines lines={['What', 'I build']} stagger={0.08} />
+              </h2>
+              <Reveal delay={0.1}>
+                <p className="lede mt-6 max-w-[32ch] text-pretty">
+                  Design, development and AI assistants for businesses that want their website to feel as considered as their work.
+                </p>
+              </Reveal>
+            </div>
+          </div>
 
-        <ol className="mt-14 border-t border-line md:mt-20">
-          {services.map((s, i) => (
-            <Reveal as="li" key={s.title} y={16} delay={Math.min(i * 0.03, 0.15)} className="border-b border-line">
-              <div className="group relative isolate -mx-[var(--gutter)] overflow-hidden px-[var(--gutter)]">
-                <span
-                  className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-ink transition-transform duration-500 ease-out [@media(hover:hover)]:group-hover:scale-y-100"
-                  aria-hidden="true"
-                />
-                <div className="grid grid-cols-[2.5rem_1fr] gap-x-4 gap-y-3 py-7 transition-colors duration-300 md:grid-cols-12 md:items-center md:gap-8 md:py-9 [@media(hover:hover)]:group-hover:text-paper">
-                  <span className="pt-1 font-mono text-[12px] text-accent md:col-span-1 md:pt-0">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="font-display text-[clamp(1.5rem,3.3vw,2.75rem)] font-medium leading-[1.02] tracking-[-0.03em] transition-transform duration-500 ease-out md:col-span-5 [@media(hover:hover)]:group-hover:translate-x-3">
-                    {s.title}
-                  </h3>
-                  <div className="col-start-2 md:col-span-5 md:col-start-auto">
-                    <p className="max-w-[46ch] text-[15px] leading-relaxed text-muted transition-colors duration-300 [@media(hover:hover)]:group-hover:text-paper/70">
-                      {s.description}
-                    </p>
-                    <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted/80 transition-colors duration-300 [@media(hover:hover)]:group-hover:text-paper/50">
-                      {s.tags.join(' · ')}
-                    </p>
-                  </div>
+          <ol className="lg:col-span-8 lg:border-l lg:border-border">
+            {services.map((s, i) => (
+              <Reveal as="li" key={s.title} y={12} delay={Math.min(i * 0.03, 0.15)} className="border-b border-border last:border-b-0">
+                <div className="group relative isolate overflow-hidden">
                   <span
-                    className="hidden justify-self-end md:col-span-1 md:block"
+                    className="absolute inset-0 -z-10 origin-left scale-x-0 bg-surface transition-transform duration-500 ease-out [@media(hover:hover)]:group-hover:scale-x-100"
                     aria-hidden="true"
-                  >
-                    <span className="grid h-11 w-11 place-items-center rounded-full border border-line transition-all duration-500 ease-out [@media(hover:hover)]:group-hover:rotate-45 [@media(hover:hover)]:group-hover:border-accent [@media(hover:hover)]:group-hover:bg-accent">
-                      <ArrowUpRight size={18} strokeWidth={1.5} />
+                  />
+                  <span
+                    className="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-accent transition-transform duration-500 ease-out [@media(hover:hover)]:group-hover:scale-y-100"
+                    aria-hidden="true"
+                  />
+                  <div className="pad grid grid-cols-[2.25rem_1fr] gap-x-4 gap-y-2 py-6 md:grid-cols-[3rem_1.1fr_1fr_auto] md:items-center md:gap-x-8 md:py-7">
+                    <span className="meta pt-1 text-muted transition-colors duration-300 group-hover:text-accent md:pt-0">
+                      {String(i + 1).padStart(2, '0')}
                     </span>
-                  </span>
+                    <h3 className="display text-[clamp(1.75rem,3vw,2.6rem)] transition-transform duration-500 ease-out [@media(hover:hover)]:group-hover:translate-x-2">
+                      {s.title}
+                    </h3>
+                    <p className="col-start-2 max-w-[44ch] text-[14.5px] leading-relaxed text-muted md:col-start-auto">{s.description}</p>
+                    <ArrowUpRight
+                      size={18}
+                      strokeWidth={1.5}
+                      className="hidden text-muted transition-all duration-500 group-hover:rotate-45 group-hover:text-accent md:block"
+                      aria-hidden="true"
+                    />
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   )

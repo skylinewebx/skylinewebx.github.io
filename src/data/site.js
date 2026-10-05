@@ -6,8 +6,9 @@
 export const brand = {
   name: 'Skyline Webx',
   owner: 'Ayla',
-  role: 'Web Designer / Developer / Agency Owner',
+  role: 'Web Designer / Web Developer / Agency Owner',
   location: 'Houston, United States',
+  coordinates: '29.76° N, 95.37° W',
   timezone: 'America/Chicago',
   email: 'info@skylinewebx.com',
   website: 'https://skylinewebx.com',
@@ -22,108 +23,85 @@ export const socials = [
 ]
 
 export const nav = [
+  { label: 'Work', href: '#work' },
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
   { label: 'Contact', href: '#contact' },
 ]
 
 export const hero = {
-  status: 'Open for new projects',
-  title: ['Premium websites', 'for businesses ready', 'to look the part.'],
+  status: 'Available for select projects',
+  title: ['Websites that make', 'businesses look', 'worth choosing.'],
   // Line breaks used below 768px.
-  titleMobile: ['Premium websites', 'for businesses', 'ready to look', 'the part.'],
-  // Phrase rendered in the brand accent.
-  accentPhrase: 'the part.',
-  copy: 'Skyline Webx designs and develops modern, high-converting websites for businesses that want a stronger digital presence.',
-  pillars: ['Design', 'Development', 'Business results'],
+  titleMobile: ['Websites', 'that make', 'businesses', 'look worth', 'choosing.'],
+  accentWord: 'choosing.',
+  copy: 'Skyline Webx designs and develops premium digital experiences for modern businesses.',
+  pillars: [
+    { title: 'Design', copy: 'Visual direction, layout & UX' },
+    { title: 'Development', copy: 'Responsive, performant builds' },
+    { title: 'AI assistants', copy: 'FAQ, booking & lead capture' },
+  ],
 }
 
-export const statement = {
-  label: 'The studio',
-  lines: [
-    'We don’t just build websites.',
-    'We build digital experiences',
-    'that make businesses look',
-    'worth choosing.',
-  ],
-  // Words rendered in muted ink to create rhythm.
-  muted: ['We don’t just build websites.'],
-}
+export const ticker = [
+  'Website Design',
+  'Website Development',
+  'Landing Pages',
+  'UI/UX Design',
+  'AI Assistants',
+  'Houston, United States',
+]
 
 export const about = {
-  heading: 'About Skyline Webx',
-  lead: 'Ayla is a web designer, developer and agency owner focused on creating premium websites for modern businesses.',
-  body: 'Skyline Webx combines visual design, responsive development and thoughtful user experience to create websites that look professional and help businesses turn visitors into customers.',
+  copy: 'Skyline Webx creates premium websites and digital experiences for businesses that want to look more professional online and turn more visitors into customers.',
   identity: [
     { key: 'Name', value: 'Ayla' },
-    { key: 'Role', value: 'Web Designer / Developer / Agency Owner' },
-    { key: 'Base', value: 'Houston, United States' },
-    { key: 'Studio', value: 'Skyline Webx' },
+    { key: 'Role', value: 'Web Designer / Web Developer / Agency Owner' },
+    { key: 'Location', value: 'Houston, United States' },
+    { key: 'Brand', value: 'Skyline Webx' },
   ],
 }
 
 export const services = [
   {
     title: 'Website Design',
-    description: 'Visual direction, layout and typography shaped around your brand — so the site feels considered from the first scroll.',
-    tags: ['Art direction', 'Layout systems', 'Typography'],
+    description: 'Visual direction, layout and typography shaped around your brand, so the site feels considered from the first scroll.',
   },
   {
     title: 'Website Development',
-    description: 'Clean, responsive front-end builds that match the design closely and hold up on every screen size.',
-    tags: ['React', 'Vite / Next.js', 'Responsive builds'],
+    description: 'Clean, responsive front-end builds that match the design closely and hold up on every screen.',
   },
   {
     title: 'Business Websites',
-    description: 'Multi-section sites for service businesses — clinics, restaurants, studios — built to explain what you do and make it easy to get in touch.',
-    tags: ['Service pages', 'Booking paths', 'Local presence'],
+    description: 'Multi-section sites for service businesses that explain what you do and make it easy to get in touch.',
   },
   {
     title: 'Landing Pages',
-    description: 'Focused single pages for a launch, an offer or a campaign, with one clear action and nothing in the way of it.',
-    tags: ['Campaigns', 'Product launches', 'Single CTA'],
+    description: 'Focused single pages for a launch, offer or campaign — one clear action, nothing in the way.',
   },
   {
     title: 'UI/UX Design',
-    description: 'User journeys, wireframes and interface details that make a site easy to understand and pleasant to use.',
-    tags: ['User flows', 'Wireframes', 'Interface design'],
+    description: 'User journeys, wireframes and interface details that make a site easy to understand and use.',
   },
   {
     title: 'Website Redesign',
-    description: 'A fresh visual and structural pass on an existing site that no longer reflects the quality of the business behind it.',
-    tags: ['Audit', 'Restructure', 'Modernise'],
+    description: 'A fresh visual and structural pass for a site that no longer reflects the business behind it.',
   },
   {
     title: 'AI Chatbot / AI Assistant Integration',
-    description: 'An on-site assistant that answers common questions and guides visitors, set up around your own business information.',
-    tags: ['FAQ assistant', 'Lead capture', 'Website embed'],
+    description: 'An on-site assistant that answers common questions, guides visitors and captures enquiries.',
   },
   {
     title: 'Responsive & Performance Optimization',
-    description: 'Tightening layouts across devices and trimming what slows a site down — images, scripts, fonts and animation load.',
-    tags: ['Mobile polish', 'Image optimisation', 'Load speed'],
+    description: 'Tightening layouts across devices and trimming what slows a site down — images, scripts, fonts.',
   },
 ]
 
-export const aiAssistant = {
+export const aiIntro = {
   label: 'AI website assistants',
-  heading: 'Websites that can do more.',
-  copy: 'An optional add-on for businesses that get the same questions every day. The assistant lives on your site, is set up with your own information, and helps visitors find answers — any time of day.',
-  uses: [
-    'Answering frequently asked questions',
-    'Explaining services and what’s included',
-    'General visitor guidance around the site',
-    'Appointment-related questions',
-    'Capturing leads for follow-up',
-  ],
-  note: 'Illustrative interface. What an assistant can do depends on how it is configured for each business.',
-  // Demo conversation shown in the mockup.
-  conversation: [
-    { from: 'user', text: 'Do you offer weekend appointments?' },
-    { from: 'bot', text: 'Yes — Saturday mornings are available. Would you like me to note your details so the team can confirm a time?' },
-    { from: 'user', text: 'Sure, that works.' },
-  ],
+  heading: ['Websites that', 'can do more.'],
+  copy: 'Beyond websites, Skyline Webx builds intelligent assistants that help businesses answer questions, guide visitors and capture opportunities.',
+  capabilities: ['Answer common questions', 'Explain services & prices', 'Guide visitors', 'Take bookings', 'Capture leads'],
 }
 
 export const process = [
@@ -133,28 +111,12 @@ export const process = [
   { title: 'Launch', copy: 'Test, refine and prepare the website for launch.' },
 ]
 
-export const approach = {
-  label: 'Why Skyline Webx',
-  heading: 'An approach built around the business, not the template.',
-  points: [
-    { title: 'Designed around the business', copy: 'Every layout decision starts from what you sell and who you sell it to.' },
-    { title: 'Mobile-first thinking', copy: 'Most visitors arrive on a phone, so that is where the design starts.' },
-    { title: 'Premium visual presentation', copy: 'Typography, spacing and imagery that make a business look established.' },
-    { title: 'Responsive development', copy: 'Built to hold its shape on every screen, from small phones to wide desktops.' },
-    { title: 'Performance-conscious builds', copy: 'Optimised images, restrained scripts and motion that never blocks the page.' },
-    { title: 'Clear user journeys', copy: 'Visitors always know where they are and what to do next.' },
-    { title: 'Modern interactions', copy: 'Subtle motion that adds polish without getting in the way.' },
-    { title: 'Scalable foundation', copy: 'Clean, organised code that is easy to extend as the business grows.' },
-  ],
-}
-
 export const cta = {
-  title: ['Let’s build something', 'worth remembering.'],
+  title: ['Let’s make your business', 'worth choosing.'],
   copy: 'Have a business that deserves a better digital presence? Let’s create it.',
 }
 
 export const contact = {
   heading: 'Start a project',
   copy: 'Tell me a little about your business and what you need. I’ll reply by email.',
-  needs: ['New website', 'Website redesign', 'Landing page', 'AI assistant', 'Something else'],
 }
