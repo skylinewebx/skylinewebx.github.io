@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Design tokens — edit the palette here (space-separated RGB so
+   Tailwind opacity modifiers like bg-accent/10 keep working).
+------------------------------------------------------------------- */
+:root {
+  --paper: 247 246 242;      /* warm off-white background   */
+  --surface: 255 255 255;    /* raised panels               */
+  --ink: 14 15 18;           /* near-black text             */
+  --muted: 104 106 114;      /* secondary text              */
+  --line: 226 224 217;       /* hairline borders            */
+  --accent: 50 100 201;      /* Skyline Webx blue (from logo) #3264C9 */
+  --accent-ink: 255 255 255; /* text on accent              */
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --section-y: clamp(88px, 12vw, 176px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-h: 72px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: var(--nav-h);
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  body {
+    @apply bg-paper font-sans text-ink;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: rgb(var(--accent));
+    color: rgb(var(--accent-ink));
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site;
+    padding-inline: var(--gutter);
+  }
+  .section {
+    padding-block: var(--section-y);
+  }
+  /* Mono micro-label used across the site */
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-muted;
+  }
+  .display {
+    @apply font-display font-medium;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+  .h-section {
+    @apply font-display font-medium;
+    font-size: clamp(2.5rem, 6.2vw, 5.75rem);
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+  .lede {
+    @apply text-muted;
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.65;
+  }
+  .hairline {
+    @apply border-line;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 font-display text-[15px] font-medium tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow] duration-300;
+    transition-timing-function: var(--ease-out);
+  }
+  .btn-primary {
+    @apply bg-ink text-paper hover:bg-accent;
+  }
+  .btn-accent {
+    @apply bg-accent text-accent-ink hover:bg-ink;
+  }
+  .btn-ghost {
+    @apply border border-ink/15 bg-transparent text-ink hover:border-ink;
+  }
+  .btn-on-dark {
+    @apply border border-white/20 text-white hover:border-white;
+  }
+
+  /* Underline link with sliding rule */
+  .link-rule {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-out);
+  }
+  .link-rule:hover,
+  .link-rule:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero grid — fine blueprint grid with a cursor-following lens.
+   Works as a static grid with JS disabled.
+------------------------------------------------------------------- */
+.hero-grid {
+  --mx: 70%;
+  --my: 35%;
+  background-image:
+    linear-gradient(to right, rgb(var(--ink) / 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--ink) / 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
+}
+.hero-grid-lens {
+  background-image:
+    linear-gradient(to right, rgb(var(--accent) / 0.6) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--accent) / 0.6) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+}
+.hero-grid-lens.is-active {
+  opacity: 1;
+}
+
+/* Marquee */
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Pulsing availability dot */
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* Typing indicator in the AI mockup */
+.typing span {
+  animation: typing 1.2s infinite ease-in-out;
+}
+.typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+/* Form fields */
+.field {
+  @apply w-full rounded-none border-0 border-b border-ink/15 bg-transparent px-0 pb-3 pt-2 font-display text-[18px] text-ink outline-none transition-colors duration-300 placeholder:text-muted/60;
+}
+.field:focus {
+  @apply border-accent;
+}
+.field:focus-visible {
+  outline: none;
+}
+.field[aria-invalid='true'] {
+  border-color: #c2412d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
