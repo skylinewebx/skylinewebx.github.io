@@ -1,11 +1,11 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
-/** Keep ids in sync with the inline script in index.html and the CSS in src/index.css. */
+/** Keep ids in sync with the inline script in index.html and the CSS tokens in src/index.css. */
 export const THEMES = [
-  { id: 'skyline', label: 'Skyline Blue', swatch: ['#FAFAF7', '#3264C9'], meta: '#FAFAF7' },
-  { id: 'mono', label: 'Monochrome', swatch: ['#FFFFFF', '#0A0A0A'], meta: '#FFFFFF' },
-  { id: 'warm', label: 'Warm', swatch: ['#F4EEE4', '#B84E28'], meta: '#F4EEE4' },
-  { id: 'dark', label: 'Dark', swatch: ['#0B0C0F', '#7098EE'], meta: '#0B0C0F' },
+  { id: 'skyline', label: 'Skyline Blue', short: 'Skyline', swatch: ['#F6F7FA', '#3264C9'], meta: '#F6F7FA' },
+  { id: 'mono', label: 'Monochrome', short: 'Mono', swatch: ['#FAFAFA', '#0C0C0C'], meta: '#FAFAFA' },
+  { id: 'warm', label: 'Warm', short: 'Warm', swatch: ['#FCEDEA', '#D62D20'], meta: '#FCEDEA' },
+  { id: 'dark', label: 'Dark', short: 'Dark', swatch: ['#0C0C0E', '#7098EE'], meta: '#0C0C0E' },
 ]
 const KEY = 'swx-theme'
 const ThemeContext = createContext({ theme: 'skyline', setTheme: () => {}, cycle: () => {} })
@@ -15,12 +15,19 @@ function readInitial() {
   return THEMES.some((t) => t.id === attr) ? attr : 'skyline'
 }
 
+const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/**
+ * Theme switch with a full-screen wipe: a panel in the OLD background colour
+ * covers the page, the new theme applies underneath, then the panel slides
+ * away to the left — the same curtain transition as the reference.
+ */
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(readInitial)
+  const busy = useRef(false)
 
   useEffect(() => {
-    const root = document.documentElement
-    root.setAttribute('data-theme', theme)
+    document.documentElement.setAttribute('data-theme', theme)
     const meta = document.querySelector('meta[name="theme-color"]')
     if (meta) meta.setAttribute('content', THEMES.find((t) => t.id === theme).meta)
     try {
@@ -30,13 +37,42 @@ export function ThemeProvider({ children }) {
     }
   }, [theme])
 
-  const setTheme = useCallback((id) => {
-    const root = document.documentElement
-    root.classList.add('theme-anim')
-    window.clearTimeout(setTheme.t)
-    setTheme.t = window.setTimeout(() => root.classList.remove('theme-anim'), 650)
-    setThemeState(id)
-  }, [])
+  const setTheme = useCallback(
+    (id) => {
+      if (id === theme || busy.current) return
+      if (reduced()) {
+        setThemeState(id)
+        return
+      }
+      busy.current = true
+      const old = getComputedStyle(document.body).backgroundColor
+      const curtain = document.createElement('div')
+      curtain.setAttribute('aria-hidden', 'true')
+      Object.assign(curtain.style, {
+        position: 'fixed',
+        inset: '0',
+        zIndex: '200',
+        background: old,
+        pointerEvents: 'none',
+        clipPath: 'inset(0 0 0 0)',
+        transition: 'clip-path 0.75s cubic-bezier(0.76, 0, 0.24, 1)',
+      })
+      document.body.appendChild(curtain)
+      requestAnimationFrame(() => {
+        setThemeState(id)
+        requestAnimationFrame(() => {
+          curtain.style.clipPath = 'inset(0 100% 0 0)'
+          const done = () => {
+            curtain.remove()
+            busy.current = false
+          }
+          curtain.addEventListener('transitionend', done, { once: true })
+          setTimeout(done, 1100)
+        })
+      })
+    },
+    [theme],
+  )
 
   const cycle = useCallback(() => {
     const i = THEMES.findIndex((t) => t.id === theme)

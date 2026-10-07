@@ -1,41 +1,36 @@
 import { createContext, useCallback, useContext, useEffect, useRef } from 'react'
 import Lenis from 'lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const ScrollContext = createContext({ scrollTo: () => {}, stop: () => {}, start: () => {} })
 
 /** Height of the fixed nav, read from the --nav-h token. */
 const navOffset = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 0
 
-const prefersReducedMotion = () =>
+export const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
- * Lenis smooth scrolling for wheel input only — touch devices keep
- * native momentum scrolling (syncTouch stays off). Disabled entirely
- * when the visitor prefers reduced motion.
+ * Lenis smooth scrolling driven by GSAP's ticker, so ScrollTrigger pins and
+ * scrubs stay perfectly in sync. Wheel only — touch keeps native momentum.
+ * Disabled entirely for reduced motion.
  */
 export function ScrollProvider({ children }) {
   const lenisRef = useRef(null)
 
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
-
-    const lenis = new Lenis({
-      duration: 1.05,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    })
+    const lenis = new Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true })
     lenisRef.current = lenis
-
-    let frame
-    const raf = (time) => {
-      lenis.raf(time)
-      frame = requestAnimationFrame(raf)
-    }
-    frame = requestAnimationFrame(raf)
-
+    lenis.on('scroll', ScrollTrigger.update)
+    const tick = (time) => lenis.raf(time * 1000)
+    gsap.ticker.add(tick)
+    gsap.ticker.lagSmoothing(0)
     return () => {
-      cancelAnimationFrame(frame)
+      gsap.ticker.remove(tick)
       lenis.destroy()
       lenisRef.current = null
     }
@@ -46,14 +41,12 @@ export function ScrollProvider({ children }) {
     if (target !== 0 && !el) return
     const offset = options.offset ?? 0
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(target === 0 ? 0 : el, { offset, duration: 1.2, force: true }) // Lenis already honours scroll-padding-top
-    } else if (target === 0) {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+      // Lenis already honours scroll-padding-top.
+      lenisRef.current.scrollTo(target === 0 ? 0 : el, { offset, duration: 1.4, force: true })
     } else {
-      const top = el.getBoundingClientRect().top + window.scrollY + offset - navOffset()
+      const top = target === 0 ? 0 : el.getBoundingClientRect().top + window.scrollY + offset - navOffset()
       window.scrollTo({ top, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     }
-    // Move focus for keyboard + screen-reader users without a second jump.
     if (el && options.focus !== false) {
       if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1')
       el.focus({ preventScroll: true })
@@ -87,3 +80,5 @@ export function useAnchorClick(onNavigate) {
     [scrollTo, onNavigate],
   )
 }
+
+export { gsap, ScrollTrigger }

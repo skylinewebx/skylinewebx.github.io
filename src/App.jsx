@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { ScrollProvider } from './lib/scroll'
+import { ScrollProvider, ScrollTrigger } from './lib/scroll'
 import { ThemeProvider } from './lib/theme'
 import Loader from './components/Loader'
 import Navbar from './components/Navbar'
 import Cursor from './components/Cursor'
+import FloatingPill from './components/FloatingPill'
 import Hero from './components/Hero'
-import Reel from './components/Reel'
-import ProjectShowcase from './components/ProjectShowcase'
+import Studio from './components/Studio'
+import Identity from './components/Identity'
+import Work from './components/Work'
 import AIShowcase from './components/AIShowcase'
-import Ticker from './components/Ticker'
-import About from './components/About'
-import Services from './components/Services'
 import CTA from './components/CTA'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -46,26 +45,49 @@ export default function App() {
     return () => clearTimeout(id)
   }, [loading])
 
+  // Re-measure pinned sections whenever the page height settles to a new value
+  // (fonts swapping in, lazy images decoding), so pins never start in the wrong place.
+  useEffect(() => {
+    let last = 0
+    let t = 0
+    const refresh = () => {
+      clearTimeout(t)
+      t = setTimeout(() => {
+        const h = document.body.scrollHeight
+        if (Math.abs(h - last) > 2) {
+          ScrollTrigger.refresh()
+          last = document.body.scrollHeight
+        }
+      }, 250)
+    }
+    const ro = new ResizeObserver(refresh)
+    ro.observe(document.body)
+    document.fonts?.ready.then(() => ScrollTrigger.refresh())
+    window.addEventListener('load', refresh)
+    return () => {
+      ro.disconnect()
+      clearTimeout(t)
+      window.removeEventListener('load', refresh)
+    }
+  }, [])
+
   return (
     <ThemeProvider>
       <ScrollProvider>
-        <AnimatePresence>{loading && <Loader key="loader" duration={LOADER_MS - 150} />}</AnimatePresence>
+        <AnimatePresence>{loading && <Loader key="loader" />}</AnimatePresence>
         <Navbar ready={!loading} />
         <Cursor />
         <main id="main" tabIndex={-1} className="outline-none">
           <Hero ready={!loading} />
-          <div className="frame">
-            <Reel />
-          </div>
-          <ProjectShowcase />
+          <Studio />
+          <Identity />
+          <Work />
           <AIShowcase />
-          <About />
-          <Ticker />
-          <Services />
           <CTA />
           <Contact />
         </main>
         <Footer />
+        <FloatingPill ready={!loading} />
       </ScrollProvider>
     </ThemeProvider>
   )

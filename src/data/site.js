@@ -32,15 +32,9 @@ export const nav = [
 export const hero = {
   status: 'Available for select projects',
   title: ['Websites that make', 'businesses look', 'worth choosing.'],
-  // Line breaks used below 768px.
-  titleMobile: ['Websites', 'that make', 'businesses', 'look worth', 'choosing.'],
   accentWord: 'choosing.',
   copy: 'Skyline Webx designs and develops premium digital experiences for modern businesses.',
-  pillars: [
-    { title: 'Design', copy: 'Visual direction, layout & UX' },
-    { title: 'Development', copy: 'Responsive, performant builds' },
-    { title: 'AI assistants', copy: 'FAQ, booking & lead capture' },
-  ],
+  chips: ['Web design', 'Development', 'AI assistants', 'Houston, US'],
 }
 
 export const ticker = [

@@ -1,192 +1,201 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
-import MagneticButton from './ui/MagneticButton'
-import LocalTime from './ui/LocalTime'
-import { RevealLines, EASE } from './ui/Reveal'
+import { ArrowRight } from 'lucide-react'
+import WarpGrid from './ui/WarpGrid'
+import BinaryStrip from './ui/BinaryStrip'
 import { brand, hero } from '../data/site'
-import { projects } from '../data/projects'
-import { assistants } from '../data/assistants'
 import { useAnchorClick } from '../lib/scroll'
 
-/** Accent lens over the blueprint grid that follows the cursor (fine pointers only). */
-function useGridLens(areaRef, lensRef) {
-  useEffect(() => {
-    const area = areaRef.current
-    const lens = lensRef.current
-    if (!area || !lens) return undefined
-    if (!window.matchMedia('(pointer: fine)').matches) return undefined
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
-    let frame = 0
-    let tx = 0
-    let ty = 0
-    let cx = 0
-    let cy = 0
-    const tick = () => {
-      cx += (tx - cx) * 0.16
-      cy += (ty - cy) * 0.16
-      lens.style.setProperty('--mx', `${cx}px`)
-      lens.style.setProperty('--my', `${cy}px`)
-      frame = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.5 ? requestAnimationFrame(tick) : 0
-    }
-    const onMove = (e) => {
-      const r = area.getBoundingClientRect()
-      tx = e.clientX - r.left
-      ty = e.clientY - r.top
-      if (!lens.classList.contains('is-active')) {
-        cx = tx
-        cy = ty
-        lens.classList.add('is-active')
-      }
-      if (!frame) frame = requestAnimationFrame(tick)
-    }
-    const onLeave = () => lens.classList.remove('is-active')
-    area.addEventListener('pointermove', onMove)
-    area.addEventListener('pointerleave', onLeave)
-    return () => {
-      cancelAnimationFrame(frame)
-      area.removeEventListener('pointermove', onMove)
-      area.removeEventListener('pointerleave', onLeave)
-    }
-  }, [areaRef, lensRef])
+const EASE = [0.22, 1, 0.36, 1]
+const POP = [0.34, 1.56, 0.64, 1]
+
+function Sparkle({ className = '' }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path d="M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z" fill="currentColor" />
+    </svg>
+  )
 }
 
-function renderLine(line) {
-  const at = line.indexOf(hero.accentWord)
-  if (at === -1) return line
+/** Live Houston time with seconds, like a system clock. */
+function useClock() {
+  const fmt = () =>
+    new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: brand.timezone }).format(new Date())
+  const [t, setT] = useState(fmt)
+  useEffect(() => {
+    const id = setInterval(() => setT(fmt()), 1000)
+    return () => clearInterval(id)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  return t
+}
+
+/** Measured frame rate, sampled twice a second while the panel is on screen. */
+function useFps(ref) {
+  const [fps, setFps] = useState('60.0')
+  useEffect(() => {
+    let raf = 0
+    let frames = 0
+    let last = performance.now()
+    const loop = (now) => {
+      frames++
+      if (now - last >= 500) {
+        setFps(Math.min(120, (frames * 1000) / (now - last)).toFixed(1))
+        frames = 0
+        last = now
+      }
+      raf = requestAnimationFrame(loop)
+    }
+    const io = new IntersectionObserver(([e]) => {
+      cancelAnimationFrame(raf)
+      if (e.isIntersecting) {
+        frames = 0
+        last = performance.now()
+        raf = requestAnimationFrame(loop)
+      }
+    })
+    io.observe(ref.current)
+    return () => {
+      io.disconnect()
+      cancelAnimationFrame(raf)
+    }
+  }, [ref])
+  return fps
+}
+
+function Monitor({ ready }) {
+  const ref = useRef(null)
+  const time = useClock()
+  const fps = useFps(ref)
+  const rows = [
+    ['Loc', `Houston, US [${time}]`],
+    ['Status', hero.status, true],
+    ['Core', 'React, GSAP, Tailwind'],
+    ['Focus', 'Websites + AI assistants'],
+  ]
   return (
-    <>
-      {line.slice(0, at)}
-      <span className="text-accent">{hero.accentWord}</span>
-    </>
+    <motion.div
+      ref={ref}
+      className="hard"
+      initial={{ opacity: 0, y: 16 }}
+      animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+      transition={{ duration: 0.7, ease: EASE, delay: 0.55 }}
+    >
+      <div className="flex h-9 items-center justify-between bg-foreground px-4 text-background">
+        <span className="meta text-[9.5px]">Studio monitor</span>
+        <span className="pulse-dot relative h-1.5 w-1.5 rounded-full bg-background text-background" aria-hidden="true" />
+      </div>
+      <dl className="space-y-2.5 px-4 py-4 font-mono text-[10.5px] uppercase tracking-[0.08em]">
+        {rows.map(([k, v, strong]) => (
+          <div key={k} className="grid grid-cols-[5.5rem_1fr] gap-3">
+            <dt className="text-muted">{k}:</dt>
+            <dd className={strong ? 'font-semibold' : ''}>{v}</dd>
+          </div>
+        ))}
+        <div className="pt-1 text-muted tabular-nums" aria-hidden="true">
+          {fps} FPS
+        </div>
+      </dl>
+    </motion.div>
   )
 }
 
 export default function Hero({ ready }) {
   const reduce = useReducedMotion()
-  const areaRef = useRef(null)
-  const lensRef = useRef(null)
   const onAnchor = useAnchorClick()
-  useGridLens(areaRef, lensRef)
-
-  const fade = (delay) =>
+  const show = (delay, from = { opacity: 0, y: 16 }) =>
     reduce
       ? {}
-      : {
-          initial: { opacity: 0, y: 14 },
-          animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
-          transition: { duration: 0.8, ease: EASE, delay },
-        }
+      : { initial: from, animate: ready ? { opacity: 1, y: 0, scale: 1 } : from, transition: { duration: 0.7, ease: EASE, delay } }
 
-  const meta = [
-    {
-      key: 'status',
-      node: (
-        <span className="inline-flex items-center gap-2.5">
-          <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-accent text-accent" aria-hidden="true" />
-          {hero.status}
-        </span>
-      ),
-    },
-    { key: 'loc', node: brand.location, className: 'lg:border-l' },
-    { key: 'coords', node: brand.coordinates, className: 'hidden lg:flex lg:border-l' },
-    {
-      key: 'time',
-      node: (
-        <span>
-          Local <LocalTime />
-        </span>
-      ),
-      className: 'border-l',
-    },
-  ]
+  const chipPos = ['translate-x-0', 'sm:translate-x-6 translate-y-1', '-translate-y-1 translate-x-4 sm:translate-x-10', 'sm:translate-x-3']
 
   return (
-    <section id="top" className="relative pt-[var(--nav-h)]" aria-labelledby="hero-title">
-      <div className="frame relative">
-        {/* Meta bar */}
-        <motion.ul
-          className="grid grid-cols-[1fr_auto] border-b border-border lg:grid-cols-[1.4fr_1fr_1fr_1fr]"
-          aria-label="Studio status"
-          {...fade(0.1)}
-        >
-          {meta.map((m, i) => (
-            <li
-              key={m.key}
-              className={`meta flex min-h-[44px] items-center border-border px-[var(--gutter)] py-2 ${m.className ?? ''} ${
-                i === 0 ? 'col-span-2 border-b lg:col-span-1 lg:border-b-0' : ''
-              }`}
-            >
-              {m.node}
-            </li>
-          ))}
-        </motion.ul>
+    <section id="top" className="relative pt-[calc(var(--nav-h)+28px)]" aria-labelledby="hero-title">
+      <div className="frame relative grid border-b border-border lg:grid-cols-12">
+        {/* Left: identity + headline */}
+        <div className="relative overflow-hidden lg:col-span-7 lg:border-r lg:border-border">
+          <WarpGrid alpha={0.13} cell={56} />
+          <div className="pad relative pb-10 pt-9 md:pb-14 md:pt-14">
+            <motion.p className="meta text-muted" {...show(0.25)}>
+              Portfolio ’26 <span className="mx-2">/</span> Design &amp; code
+            </motion.p>
 
-        {/* Headline over the blueprint grid */}
-        <div ref={areaRef} className="relative overflow-hidden border-b border-border">
-          <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden="true" />
-          <div ref={lensRef} className="grid-lens pointer-events-none absolute inset-0" aria-hidden="true" />
-          <div className="pad relative pb-8 pt-10 md:pb-12 md:pt-16">
-            <h1 id="hero-title" className="display" aria-label={hero.title.join(' ')}>
-              <span aria-hidden="true" className="block text-[clamp(3rem,19vw,7rem)] md:hidden">
-                <RevealLines lines={hero.titleMobile} animate={reduce ? undefined : ready} delay={0.1} stagger={0.07} renderLine={renderLine} />
-              </span>
-              <span aria-hidden="true" className="hidden text-[clamp(4.5rem,11.4vw,11.5rem)] md:block">
-                <RevealLines lines={hero.title} animate={reduce ? undefined : ready} delay={0.1} stagger={0.09} renderLine={renderLine} />
-              </span>
+            <h1 id="hero-title" className="display mt-5 text-[clamp(1.95rem,10.2vw,4.4rem)] md:text-[8.4vw] lg:text-[clamp(3.4rem,5.9vw,5.3rem)]" aria-label={hero.title.join(' ')}>
+              {hero.title.map((line, i) => (
+                <span key={line} className="block overflow-hidden pb-[0.04em]" aria-hidden="true">
+                  <motion.span
+                    className="flex items-center gap-[0.18em]"
+                    initial={reduce ? false : { y: '105%' }}
+                    animate={reduce ? undefined : ready ? { y: '0%' } : { y: '105%' }}
+                    transition={{ duration: 0.95, ease: EASE, delay: 0.3 + i * 0.09 }}
+                  >
+                    {line.includes(hero.accentWord) ? (
+                      <>
+                        {line.replace(hero.accentWord, '')}
+                        <span className="text-accent">{hero.accentWord}</span>
+                      </>
+                    ) : (
+                      line
+                    )}
+                    {i === 0 && (
+                      <motion.span
+                        className="inline-block w-[0.42em] shrink-0"
+                        initial={reduce ? false : { rotate: -180, scale: 0 }}
+                        animate={reduce ? undefined : ready ? { rotate: 0, scale: 1 } : { rotate: -180, scale: 0 }}
+                        transition={{ duration: 1, ease: EASE, delay: 0.75 }}
+                      >
+                        <Sparkle className="h-full w-full" />
+                      </motion.span>
+                    )}
+                  </motion.span>
+                </span>
+              ))}
             </h1>
+
+            <motion.p className="serif mt-6 max-w-[34rem] text-[clamp(1.15rem,1.55vw,1.35rem)] leading-[1.35]" {...show(0.55)}>
+              {hero.copy} Move your cursor to bend the grid.
+            </motion.p>
+
+            <ul className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-3 gap-y-4 sm:max-w-[34rem]" aria-label="What the studio does">
+              {hero.chips.map((c, k) => (
+                <motion.li
+                  key={c}
+                  className={chipPos[k]}
+                  initial={reduce ? false : { opacity: 0, scale: 0.6 }}
+                  animate={reduce ? undefined : ready ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.55, ease: POP, delay: 0.75 + k * 0.12 }}
+                >
+                  <span className="chip bg-background">
+                    <span aria-hidden="true">+</span>
+                    {c}
+                  </span>
+                </motion.li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Copy + CTAs | what we do */}
-        <div className="grid border-b border-border lg:grid-cols-12">
-          <motion.div className="pad py-8 md:py-10 lg:col-span-5" {...fade(0.5)}>
-            <p className="max-w-[30rem] font-display text-[clamp(1.25rem,1.9vw,1.6rem)] font-medium leading-[1.25] tracking-[-0.015em] text-pretty">
-              {hero.copy}
+        {/* Right: monitor + actions */}
+        <div className="pad flex flex-col justify-between gap-10 border-t border-border py-9 md:py-12 lg:col-span-5 lg:border-t-0 lg:py-14">
+          <Monitor ready={ready || reduce} />
+          <motion.div className="space-y-3" {...show(0.8)}>
+            <a href="#work" onClick={onAnchor} className="bar bar-solid">
+              View work
+              <ArrowRight size={16} strokeWidth={1.75} className="arr" aria-hidden="true" />
+            </a>
+            <a href="#contact" onClick={onAnchor} className="bar bar-line">
+              Start a project
+              <ArrowRight size={16} strokeWidth={1.75} className="arr" aria-hidden="true" />
+            </a>
+            <p className="meta flex items-center justify-between pt-2 text-muted">
+              <span>{brand.location}</span>
+              <span className="hidden sm:inline">{hero.status}</span>
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <MagneticButton href="#work" onClick={onAnchor} className="btn btn-solid">
-                View Work
-                <ArrowDownRight size={16} strokeWidth={1.75} aria-hidden="true" className="btn-arrow" />
-              </MagneticButton>
-              <MagneticButton href="#contact" onClick={onAnchor} className="btn btn-line">
-                Start a Project
-                <ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" className="btn-arrow" />
-              </MagneticButton>
-            </div>
           </motion.div>
-
-          <motion.ol className="grid grid-cols-1 border-t border-border sm:grid-cols-3 lg:col-span-7 lg:border-l lg:border-t-0" {...fade(0.6)}>
-            {hero.pillars.map((p, i) => (
-              <li
-                key={p.title}
-                className={`group flex items-end justify-between gap-4 px-[var(--gutter)] py-5 sm:flex-col sm:items-start sm:justify-between sm:py-8 ${
-                  i > 0 ? 'border-t border-border sm:border-l sm:border-t-0' : ''
-                }`}
-              >
-                <span className="meta text-accent">0{i + 1}</span>
-                <span className="text-right sm:text-left">
-                  <span className="display block text-[clamp(1.5rem,1.95vw,1.75rem)] transition-transform duration-500 group-hover:-translate-y-1">
-                    {p.title}
-                  </span>
-                  <span className="mt-1 block text-[13.5px] text-muted">{p.copy}</span>
-                </span>
-              </li>
-            ))}
-          </motion.ol>
         </div>
-
-        {/* Counts strip */}
-        <motion.div className="pad flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-3" {...fade(0.7)}>
-          <p className="meta text-muted">
-            <span className="text-foreground">{String(projects.length).padStart(2, '0')}</span> websites
-            <span className="mx-3 text-border" aria-hidden="true">
-              /
-            </span>
-            <span className="text-foreground">{String(assistants.length).padStart(2, '0')}</span> AI assistants
-          </p>
-          <p className="meta hidden text-muted sm:block">Scroll to explore ↓</p>
-        </motion.div>
+      </div>
+      <div className="frame">
+        <BinaryStrip className="border-t-0" />
       </div>
     </section>
   )

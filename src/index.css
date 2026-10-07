@@ -1,51 +1,58 @@
+/* Self-hosted fonts (latin subset) — public/fonts */
+@font-face { font-family: 'Anton'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/anton.woff2') format('woff2'); }
+@font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/instrument-serif.woff2') format('woff2'); }
+@font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; font-display: swap; src: url('/fonts/instrument-serif-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/instrument-sans.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 500; font-display: swap; src: url('/fonts/jetbrains-mono.woff2') format('woff2'); }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   Theme tokens. Space-separated RGB so Tailwind opacity modifiers work
-   (bg-accent/10). Every component reads these — never hardcode colours.
+   Theme tokens (space-separated RGB so Tailwind opacity modifiers work).
+   Rules are drawn in ink (--border), like a printed grid — not grey.
    Themes: skyline (default) · mono · warm · dark
 ------------------------------------------------------------------- */
 :root,
 [data-theme='skyline'] {
-  --background: 250 250 247;
+  --background: 246 247 250;
   --surface: 255 255 255;
-  --foreground: 13 14 18;
-  --muted: 104 107 116;
-  --border: 223 222 215;
+  --foreground: 10 14 28;
+  --muted: 92 98 118;
+  --border: 10 14 28;
   --accent: 50 100 201; /* Skyline blue, sampled from the logo (#3264C9) */
   --accent-foreground: 255 255 255;
   color-scheme: light;
 }
 [data-theme='mono'] {
-  --background: 255 255 255;
-  --surface: 246 246 246;
-  --foreground: 10 10 10;
-  --muted: 108 108 108;
-  --border: 228 228 228;
-  --accent: 10 10 10;
-  --accent-foreground: 255 255 255;
+  --background: 250 250 250;
+  --surface: 255 255 255;
+  --foreground: 12 12 12;
+  --muted: 100 100 100;
+  --border: 12 12 12;
+  --accent: 12 12 12;
+  --accent-foreground: 250 250 250;
   color-scheme: light;
 }
 [data-theme='warm'] {
-  --background: 244 238 228;
-  --surface: 250 246 239;
-  --foreground: 34 27 21;
-  --muted: 118 104 90;
-  --border: 222 211 194;
-  --accent: 184 78 40;
-  --accent-foreground: 255 248 240;
+  --background: 252 237 234;
+  --surface: 255 246 243;
+  --foreground: 26 6 6;
+  --muted: 118 84 80;
+  --border: 26 6 6;
+  --accent: 214 45 32;
+  --accent-foreground: 255 246 243;
   color-scheme: light;
 }
 [data-theme='dark'] {
-  --background: 11 12 15;
-  --surface: 19 21 26;
-  --foreground: 236 236 230;
-  --muted: 142 145 154;
-  --border: 40 42 50;
+  --background: 12 12 14;
+  --surface: 20 21 25;
+  --foreground: 240 238 232;
+  --muted: 150 152 160;
+  --border: 240 238 232;
   --accent: 112 152 238;
-  --accent-foreground: 11 12 15;
+  --accent-foreground: 12 12 14;
   color-scheme: dark;
 }
 
@@ -53,15 +60,15 @@
 .inverse,
 [data-theme='skyline'] .inverse {
   --accent: 128 164 242;
-  --accent-foreground: 11 12 15;
+  --accent-foreground: 10 14 28;
 }
 [data-theme='mono'] .inverse {
-  --accent: 255 255 255;
-  --accent-foreground: 10 10 10;
+  --accent: 250 250 250;
+  --accent-foreground: 12 12 12;
 }
 [data-theme='warm'] .inverse {
-  --accent: 236 146 104;
-  --accent-foreground: 34 27 21;
+  --accent: 255 92 72;
+  --accent-foreground: 26 6 6;
 }
 [data-theme='dark'] .inverse {
   --accent: 50 100 201;
@@ -69,23 +76,14 @@
 }
 
 :root {
-  --gutter: clamp(16px, 3.4vw, 48px);
-  --section-y: clamp(64px, 8vw, 128px);
-  --nav-h: 64px;
+  --gutter: clamp(16px, 2.6vw, 40px);
+  --nav-h: 56px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-/* Smooth cross-fade while switching themes (class added for ~600ms only). */
-html.theme-anim,
-html.theme-anim *,
-html.theme-anim *::before,
-html.theme-anim *::after {
-  transition:
-    background-color 0.6s var(--ease-out),
-    border-color 0.6s var(--ease-out),
-    color 0.6s var(--ease-out),
-    fill 0.6s var(--ease-out),
-    stroke 0.6s var(--ease-out) !important;
+@media (min-width: 1024px) {
+  :root {
+    --nav-h: 64px;
+  }
 }
 
 @layer base {
@@ -94,7 +92,7 @@ html.theme-anim *::after {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-padding-top: var(--nav-h);
+    scroll-padding-top: calc(var(--nav-h) + 28px);
     background: rgb(var(--background));
   }
   html.lenis,
@@ -110,17 +108,16 @@ html.theme-anim *::after {
   body {
     @apply bg-background font-sans text-foreground;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.55;
     overflow-x: clip;
   }
   ::selection {
-    background: rgb(var(--accent));
-    color: rgb(var(--accent-foreground));
+    background: rgb(var(--foreground));
+    color: rgb(var(--background));
   }
   :focus-visible {
     outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
-    border-radius: 2px;
   }
   img {
     max-width: 100%;
@@ -129,63 +126,69 @@ html.theme-anim *::after {
 }
 
 @layer components {
-  /* The ruled frame: content sits between two vertical hairlines. */
+  /* Type system: heavy condensed display · editorial serif · mono labels */
+  .display {
+    font-family: Anton, 'Instrument Sans', system-ui, sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    line-height: 0.9;
+  }
+  .serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  .meta {
+    @apply font-mono text-[10.5px] font-medium uppercase tracking-[0.14em];
+  }
+
+  /* The ruled frame */
   .frame {
     @apply mx-auto w-full max-w-site border-x border-border;
   }
   .pad {
     padding-inline: var(--gutter);
   }
-  .section {
-    padding-block: var(--section-y);
+
+  /* Black label bar (ABOUT / SERVICES …) */
+  .label-bar {
+    @apply meta flex h-8 items-center justify-center bg-foreground text-center text-[10px] tracking-[0.3em] text-background;
   }
 
-  /* Type system */
-  .display {
-    @apply font-display uppercase;
-    font-weight: 600;
-    font-stretch: 76%;
-    letter-spacing: -0.02em;
-    line-height: 0.86;
+  /* Bordered box with a hard offset shadow */
+  .hard {
+    @apply border border-border bg-background;
+    box-shadow: 4px 4px 0 rgb(var(--foreground));
   }
-  .display-md {
-    @apply font-display;
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .meta {
-    @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em];
-  }
-  .lede {
-    @apply text-muted;
-    font-size: clamp(1rem, 1.2vw, 1.125rem);
-    line-height: 1.6;
+  .hard-sm {
+    @apply border border-border bg-background;
+    box-shadow: 3px 3px 0 rgb(var(--foreground));
   }
 
-  /* Buttons */
-  .btn {
-    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2.5 overflow-hidden rounded-full px-6 font-mono text-[12px] font-medium uppercase tracking-[0.12em] transition-[background-color,color,border-color] duration-300;
+  /* Action bars */
+  .bar {
+    @apply meta flex min-h-[52px] w-full items-center justify-between gap-4 px-5 text-[11px] tracking-[0.18em] transition-[background-color,color,box-shadow,transform] duration-300;
     transition-timing-function: var(--ease-out);
   }
-  .btn-accent {
-    @apply bg-accent text-accent-foreground hover:bg-foreground hover:text-background;
-  }
-  .btn-solid {
+  .bar-solid {
     @apply bg-foreground text-background hover:bg-accent hover:text-accent-foreground;
   }
-  .btn-line {
-    @apply border border-foreground/20 text-foreground hover:border-foreground;
+  .bar-line {
+    @apply border border-border text-foreground hover:bg-foreground hover:text-background;
   }
-  .btn .btn-arrow {
+  .bar .arr {
     transition: transform 0.45s var(--ease-out);
   }
-  .btn:hover .btn-arrow {
-    transform: translate(2px, -2px);
+  .bar:hover .arr {
+    transform: translateX(4px);
   }
 
   .chip {
-    @apply inline-flex items-center rounded-full border border-border px-2.5 py-1 font-mono text-[10.5px] uppercase leading-none tracking-[0.08em] text-muted;
+    @apply hard-sm meta inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 text-[10px];
+  }
+  .tag {
+    @apply inline-flex items-center border border-border px-2 py-1 font-mono text-[10px] uppercase leading-none tracking-[0.08em];
   }
 
   .link-rule {
@@ -202,34 +205,39 @@ html.theme-anim *::after {
   }
 }
 
-/* Blueprint grid with a cursor-following lens (hero). Static without JS. */
-.grid-bg {
+/* Paper grid (static fallback for the warp canvas) */
+.paper {
   background-image:
-    linear-gradient(to right, rgb(var(--foreground) / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--foreground) / 0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(to right, rgb(var(--foreground) / 0.55) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--foreground) / 0.55) 1px, transparent 1px);
+  background-size: 64px 64px;
   background-position: -1px -1px;
 }
-.grid-lens {
-  --mx: 50%;
-  --my: 50%;
+.paper-soft {
   background-image:
-    linear-gradient(to right, rgb(var(--accent) / 0.7) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--accent) / 0.7) 1px, transparent 1px);
-  background-size: 48px 48px;
-  background-position: -1px -1px;
-  mask-image: radial-gradient(220px circle at var(--mx) var(--my), #000 0%, transparent 72%);
-  -webkit-mask-image: radial-gradient(220px circle at var(--mx) var(--my), #000 0%, transparent 72%);
-  opacity: 0;
-  transition: opacity 0.5s var(--ease-out);
+    linear-gradient(to right, rgb(var(--foreground) / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--foreground) / 0.12) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
-.grid-lens.is-active {
-  opacity: 1;
+/* Dot field used in dark panels */
+.dots {
+  background-image: radial-gradient(rgb(var(--background) / 0.28) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.hatch {
+  background-image: repeating-linear-gradient(-45deg, rgb(var(--foreground)) 0 1px, transparent 1px 11px);
 }
 
-/* Diagonal hatch used in empty cells */
-.hatch {
-  background-image: repeating-linear-gradient(-45deg, rgb(var(--foreground) / 0.12) 0 1px, transparent 1px 9px);
+/* Extruded letters (letter wall / pill window) */
+.extrude {
+  color: rgb(var(--background));
+  text-shadow:
+    1px 1px 0 rgb(var(--foreground) / 0.55),
+    2px 2px 0 rgb(var(--foreground) / 0.55),
+    3px 3px 0 rgb(var(--background) / 0.35),
+    4px 4px 0 rgb(var(--background) / 0.3),
+    5px 5px 0 rgb(var(--background) / 0.25),
+    6px 6px 0 rgb(var(--background) / 0.2);
 }
 
 .pulse-dot::after {
@@ -251,21 +259,17 @@ html.theme-anim *::after {
   }
 }
 
-/* Form fields */
-.field {
-  @apply w-full rounded-none border-0 border-b border-foreground/20 bg-transparent px-0 pb-3 pt-2 font-display text-[18px] text-foreground outline-none transition-colors duration-300 placeholder:text-muted/60;
+/* Form fields inside the dark contact disc */
+.disc-field {
+  @apply w-full rounded-none border-0 border-b border-background/30 bg-transparent px-0 pb-2 pt-1 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-background outline-none transition-colors duration-300 placeholder:text-background/40;
 }
-.field:focus {
-  @apply border-accent;
+.disc-field:focus {
+  @apply border-background;
 }
-.field:focus-visible {
-  outline: none;
-}
-.field[aria-invalid='true'] {
-  border-color: #d0452f;
+.disc-field[aria-invalid='true'] {
+  border-color: #ff6b5a;
 }
 
-/* Custom cursor: hide the native one only over labelled areas, fine pointers only. */
 @media (hover: hover) and (pointer: fine) {
   html.has-cursor [data-cursor] {
     cursor: none;
