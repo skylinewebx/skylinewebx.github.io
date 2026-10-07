@@ -10,7 +10,7 @@ import Hero from './components/Hero'
 import Studio from './components/Studio'
 import Identity from './components/Identity'
 import Work from './components/Work'
-import AIShowcase from './components/AIShowcase'
+import AssistantsShowcase from './components/AssistantsShowcase'
 import CTA from './components/CTA'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -93,7 +93,7 @@ export default function App() {
           <Studio />
           <Identity />
           <Work />
-          <AIShowcase />
+          <AssistantsShowcase />
           <CTA />
           <Contact />
         </main>

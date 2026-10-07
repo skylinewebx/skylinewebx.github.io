@@ -1,5 +1,5 @@
 /**
- * AI assistants — every chatbot project in github.com/skylinewebx.
+ * Chatbots — every chatbot project in github.com/skylinewebx.
  * Details come from each repository's README; screenshots are real
  * conversations captured from the live demos (src/assets/shots/bot-*.webp).
  *
@@ -46,7 +46,7 @@ export const assistants = [
   {
     slug: 'clinic-chatbot',
     configs: clinicNiches.map(([label, id]) => ({ label, href: `https://clinic-chatbot.skylinewebx.com/?niche=${id}` })),
-    title: 'Clinic AI Assistant',
+    title: 'Clinic Assistant',
     type: 'Healthcare / Medical clinics',
     summary:
       'A safety-first assistant for clinics. One chatbot covers 15 departments, works out which one a patient needs from each message, and books appointments.',
@@ -145,7 +145,7 @@ export const assistants = [
     technologies: ENGINE,
     liveUrl: 'https://demo-chatbot.skylinewebx.com/',
     githubUrl: 'https://github.com/skylinewebx/demo-chatbot',
-    image: { desktop: demoHome, chat: demoDesk, mobile: demoM, alt: 'AI chatbot demos for five industries, and the dental assistant answering about opening hours' },
+    image: { desktop: demoHome, chat: demoDesk, mobile: demoM, alt: 'Chatbot demos for five industries, and the dental assistant answering about opening hours' },
     accent: '#F97316',
   },
 ]

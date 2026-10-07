@@ -115,7 +115,7 @@ export default function Studio() {
     'Business Websites',
     'Landing Pages',
     'Responsive & Performance Optimization',
-    'AI Chatbot / AI Assistant Integration',
+    'Chatbot / Website Assistant Integration',
   ]
   const n = (title) => order.indexOf(title) + 1
   let k = 0
@@ -186,8 +186,8 @@ export default function Studio() {
               <Globe className="h-16 w-16" />
             </Cell>
             <ServiceCell k={k++} s={by('Responsive & Performance Optimization')} n={n('Responsive & Performance Optimization')} className="col-span-2 border-r-0" />
-            <WordCell k={k++} word="AI" items={['Chatbots', 'Assistants', 'Lead capture']} />
-            <ServiceCell k={k++} s={by('AI Chatbot / AI Assistant Integration')} n={n('AI Chatbot / AI Assistant Integration')} className="border-r-0" />
+            <WordCell k={k++} word="Bots" items={['Chatbots', 'Assistants', 'Lead capture']} />
+            <ServiceCell k={k++} s={by('Chatbot / Website Assistant Integration')} n={n('Chatbot / Website Assistant Integration')} className="border-r-0" />
           </div>
 
           {/* Process */}

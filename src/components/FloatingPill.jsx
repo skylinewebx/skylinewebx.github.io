@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { logoSrc } from './Logo'
 import { useAnchorClick } from '../lib/scroll'
 
-/** Small always-there launcher (bottom right) that jumps to the AI assistants. */
+/** Small always-there launcher (bottom right) that jumps to the chatbots section. */
 export default function FloatingPill({ ready }) {
   const onAnchor = useAnchorClick()
   return (
@@ -13,10 +13,10 @@ export default function FloatingPill({ ready }) {
       initial={{ opacity: 0, y: 20 }}
       animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
-      aria-label="AI assistants"
+      aria-label="Chatbots"
     >
       <img src={logoSrc} alt="" width={28} height={28} className="h-7 w-7 rounded-[7px]" />
-      SWX · AI
+      SWX · BOTS
     </motion.a>
   )
 }

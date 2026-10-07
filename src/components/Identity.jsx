@@ -94,7 +94,7 @@ export default function Identity() {
             &amp; developer
           </Row>
           <Row label="02 // Location">Houston, United States</Row>
-          <Row align="right" sub="// Design · Code · AI">
+          <Row align="right" sub="// Design · Code · Launch">
             Skyline Webx @ {brand.year}
           </Row>
         </div>

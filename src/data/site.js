@@ -34,7 +34,7 @@ export const hero = {
   title: ['Websites that make', 'businesses look', 'worth choosing.'],
   accentWord: 'choosing.',
   copy: 'Skyline Webx designs and develops premium digital experiences for modern businesses.',
-  chips: ['Web design', 'Development', 'AI assistants', 'Houston, US'],
+  chips: ['Web design', 'Development', 'Chatbots', 'Houston, US'],
 }
 
 export const ticker = [
@@ -42,7 +42,7 @@ export const ticker = [
   'Website Development',
   'Landing Pages',
   'UI/UX Design',
-  'AI Assistants',
+  'Chatbots',
   'Houston, United States',
 ]
 
@@ -82,7 +82,7 @@ export const services = [
     description: 'A fresh visual and structural pass for a site that no longer reflects the business behind it.',
   },
   {
-    title: 'AI Chatbot / AI Assistant Integration',
+    title: 'Chatbot / Website Assistant Integration',
     description: 'An on-site assistant that answers common questions, guides visitors and captures enquiries.',
   },
   {
@@ -91,8 +91,8 @@ export const services = [
   },
 ]
 
-export const aiIntro = {
-  label: 'AI website assistants',
+export const chatIntro = {
+  label: 'Website chatbots',
   heading: ['Websites that', 'can do more.'],
   copy: 'Beyond websites, Skyline Webx builds intelligent assistants that help businesses answer questions, guide visitors and capture opportunities.',
   capabilities: ['Answer common questions', 'Explain services & prices', 'Guide visitors', 'Take bookings', 'Capture leads'],

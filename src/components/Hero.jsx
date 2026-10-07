@@ -70,7 +70,7 @@ function Monitor({ ready }) {
     ['Loc', `Houston, US [${time}]`],
     ['Status', hero.status, true],
     ['Core', 'React, GSAP, Tailwind'],
-    ['Focus', 'Websites + AI assistants'],
+    ['Focus', 'Websites + chatbots'],
   ]
   return (
     <motion.div

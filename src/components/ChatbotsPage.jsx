@@ -5,7 +5,7 @@ import WarpGrid from './ui/WarpGrid'
 import BinaryStrip from './ui/BinaryStrip'
 import GithubIcon from './ui/GithubIcon'
 import { assistants } from '../data/assistants'
-import { aiIntro } from '../data/site'
+import { chatIntro } from '../data/site'
 import { gsap, prefersReducedMotion, useAnchorClick } from '../lib/scroll'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -85,7 +85,7 @@ function Intro({ ready }) {
               <a href="/#work" className="link-rule">
                 Work
               </a>{' '}
-              <span className="mx-2">/</span> AI chatbots
+              <span className="mx-2">/</span> Chatbots
             </motion.p>
             <h1 id="chatbots-title" className="display mt-5 text-[clamp(3rem,15vw,5.2rem)] md:text-[clamp(4.4rem,10vw,8rem)]" aria-label="Chatbot portfolio">
               {lines.map((line, i) => (
@@ -112,7 +112,7 @@ function Intro({ ready }) {
               ))}
             </h1>
             <motion.p className="serif mt-6 max-w-[34rem] text-[clamp(1.15rem,1.55vw,1.35rem)] leading-[1.35]" {...show(0.5)}>
-              {aiIntro.copy}
+              {chatIntro.copy}
             </motion.p>
             <ul className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-3 gap-y-4 sm:max-w-[34rem]" aria-label="Shared engine">
               {chips.map((c, k) => (

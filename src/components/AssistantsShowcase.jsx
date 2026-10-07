@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
 import GithubIcon from './ui/GithubIcon'
-import { aiIntro } from '../data/site'
+import { chatIntro } from '../data/site'
 import { assistants } from '../data/assistants'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -124,17 +124,17 @@ function Window({ bot, index }) {
   )
 }
 
-export default function AIShowcase() {
+export default function AssistantsShowcase() {
   const reduce = useReducedMotion()
   const hub = assistants.find((b) => b.slug === 'demo-chatbot')
   return (
-    <section id="assistants" className="inverse dots bg-foreground text-background" aria-labelledby="ai-title">
+    <section id="assistants" className="inverse dots bg-foreground text-background" aria-labelledby="assistants-title">
       <div className="frame border-background/25">
-        <p className="meta flex h-8 items-center justify-center bg-background text-[10px] tracking-[0.3em] text-foreground">{aiIntro.label}</p>
+        <p className="meta flex h-8 items-center justify-center bg-background text-[10px] tracking-[0.3em] text-foreground">{chatIntro.label}</p>
 
         <div className="grid gap-8 px-[var(--gutter)] pb-10 pt-12 md:pb-14 md:pt-16 lg:grid-cols-12 lg:items-end">
-          <h2 id="ai-title" className="display text-[clamp(3.2rem,10.5vw,9.5rem)] lg:col-span-8">
-            {aiIntro.heading.map((l, i) => (
+          <h2 id="assistants-title" className="display text-[clamp(3.2rem,10.5vw,9.5rem)] lg:col-span-8">
+            {chatIntro.heading.map((l, i) => (
               <span key={l} className="block overflow-hidden">
                 <motion.span
                   className={`block ${i === 1 ? 'text-accent' : ''}`}
@@ -149,15 +149,15 @@ export default function AIShowcase() {
             ))}
           </h2>
           <Reveal className="lg:col-span-4" delay={0.1}>
-            <p className="serif text-[19px] leading-snug text-background/85">{aiIntro.copy}</p>
+            <p className="serif text-[19px] leading-snug text-background/85">{chatIntro.copy}</p>
             <p className="mt-4 text-[14px] leading-relaxed text-background/60">
-              AI assistants can help businesses answer common questions, explain services, guide visitors and capture leads.
+              Website chatbots can help businesses answer common questions, explain services, guide visitors and capture leads.
             </p>
           </Reveal>
         </div>
 
         <ul className="flex flex-wrap gap-3 px-[var(--gutter)] pb-12" aria-label="Capabilities">
-          {aiIntro.capabilities.map((c, i) => (
+          {chatIntro.capabilities.map((c, i) => (
             <motion.li
               key={c}
               className="meta border border-background bg-foreground px-3 py-2 text-[10px] shadow-[3px_3px_0_rgb(var(--background))]"

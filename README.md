@@ -20,7 +20,7 @@ npm run preview   # serve the production build
 | About · Services mosaic · Process | `Studio.jsx` | mosaic cells flip open on scroll, perspective "corridor" margins |
 | Identity | `Identity.jsx` | pinned; organic blob grows with scroll to reveal the panel |
 | Work: phone columns → pill → letter wall → index | `Work.jsx`, `ProjectIndex.jsx` | parallax columns, word scrolling inside the pill, pinned wall with project cards flying across |
-| AI assistants (all 4 chatbots) | `AIShowcase.jsx` | window reveals, real chat screenshots |
+| Chatbots (all 4 chatbot projects) | `AssistantsShowcase.jsx` | window reveals, real chat screenshots |
 | CTA | `CTA.jsx` | pinned; perspective type rises and flattens |
 | Contact | `Contact.jsx` | "GO" disc morphs into a circular form; grid bulges around it |
 
@@ -30,7 +30,7 @@ npm run preview   # serve the production build
 | --- | --- |
 | Copy, services, process, contact, socials, nav | `src/data/site.js` |
 | Websites (title, category, description, technologies, `liveUrl`, `githubUrl`, images) | `src/data/projects.js` |
-| AI assistants (summary, features, stats, links, screenshots) | `src/data/assistants.js` |
+| Chatbots (summary, features, stats, links, screenshots) | `src/data/assistants.js` |
 | Theme palettes (Skyline Blue · Monochrome · Warm · Dark) | `src/index.css` → `[data-theme=…]` tokens; labels in `src/lib/theme.jsx` |
 | Fonts (self-hosted, latin) | `public/fonts` + `@font-face` in `src/index.css` |
 
