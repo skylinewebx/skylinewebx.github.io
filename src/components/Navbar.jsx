@@ -30,7 +30,7 @@ function Drawer({ open, onClose }) {
   const panel = useRef(null)
   const { theme, setTheme } = useTheme()
   const onAnchor = useAnchorClick(onClose)
-  const items = [...nav.slice(0, 3), { label: 'Assistants', href: '#assistants' }, nav[3]]
+  const items = [...nav.slice(0, 3), { label: 'Assistants', href: '#assistants' }, nav[3], { label: 'Chatbots', href: '/chatbots/' }]
 
   useEffect(() => {
     if (!open) return undefined

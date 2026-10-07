@@ -73,6 +73,12 @@ export function useAnchorClick(onNavigate) {
       const href = event.currentTarget.getAttribute('href')
       if (!href || !href.startsWith('#')) return
       event.preventDefault()
+      // Section lives on the homepage (e.g. nav links from /chatbots/): go there.
+      if (href !== '#top' && !document.querySelector(href)) {
+        onNavigate?.()
+        window.location.assign('/' + href)
+        return
+      }
       const go = () => (href === '#top' ? scrollTo(0) : scrollTo(href))
       if (onNavigate) {
         // Let menus close (and release the scroll lock) before scrolling.

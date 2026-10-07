@@ -15,12 +15,37 @@ import pet from '../assets/shots/bot-pet.webp'
 import petM from '../assets/shots/bot-pet-m.webp'
 import demoHome from '../assets/shots/bot-demo-home.webp'
 import demoM from '../assets/shots/bot-demo-m.webp'
+import demoDesk from '../assets/shots/bot-demo.webp'
+import demoRestaurantM from '../assets/shots/bot-demo-restaurant-m.webp'
+import demoRealestateM from '../assets/shots/bot-demo-realestate-m.webp'
+import demoSalonM from '../assets/shots/bot-demo-salon-m.webp'
+import demoGymM from '../assets/shots/bot-demo-gym-m.webp'
+
+/*
+ * Extra detail used by the /chatbots/ page (the homepage section ignores these):
+ *   desktop    real desktop conversation screenshot
+ *   configs    the business configurations shipped in each repo, with their real
+ *              direct links (from each README)
+ *   bots       individual industry bots with their own conversation screenshot
+ */
+const clinicNiches = [
+  ['Dental', 'dental'], ['Dermatology', 'dermatology'], ['Plastic surgery', 'plasticsurgery'], ['Hair transplant', 'hairtransplant'],
+  ['Medical spa', 'medspa'], ['Eye care', 'eye'], ['Physiotherapy', 'physio'], ['Chiropractic', 'chiro'], ['Pediatrics', 'pediatrics'],
+  ['Family medicine', 'familydoctor'], ['ENT', 'ent'], ['Orthopedics', 'ortho'], ['Women’s health', 'womenshealth'], ['Diagnostic lab', 'lab'],
+  ['Counseling', 'counseling'],
+]
+const restaurantNiches = [
+  ['Desi', 'desi'], ['Dhaba', 'dhaba'], ['Indian', 'indian'], ['Chinese', 'chinese'], ['Pizza', 'pizza'], ['Burgers', 'burgers'], ['BBQ', 'bbq'],
+  ['Mexican', 'mexican'], ['Middle Eastern', 'middleeastern'], ['Sushi', 'sushi'], ['Cafe', 'cafe'], ['Bakery', 'bakery'], ['Desserts', 'desserts'],
+  ['Fine dining', 'finedining'], ['Catering', 'catering'],
+]
 
 const ENGINE = ['Vanilla JavaScript', 'Shadow DOM widget', 'Rule-based intent engine', 'No API key']
 
 export const assistants = [
   {
     slug: 'clinic-chatbot',
+    configs: clinicNiches.map(([label, id]) => ({ label, href: `https://clinic-chatbot.skylinewebx.com/?niche=${id}` })),
     title: 'Clinic AI Assistant',
     type: 'Healthcare / Medical clinics',
     summary:
@@ -45,6 +70,7 @@ export const assistants = [
   },
   {
     slug: 'restaurant-chatbot',
+    configs: restaurantNiches.map(([label, id]) => ({ label, href: `https://resturant-chatbot.skylinewebx.com/?niche=${id}` })),
     title: 'Restaurant Assistant',
     type: 'Restaurants / Hospitality',
     summary:
@@ -93,6 +119,13 @@ export const assistants = [
   },
   {
     slug: 'demo-chatbot',
+    bots: [
+      { name: 'Bright Smile Dental Clinic', industry: 'Dental clinic', href: 'https://demo-chatbot.skylinewebx.com/?type=dental', image: demoM },
+      { name: 'Spice Garden', industry: 'Restaurant', href: 'https://demo-chatbot.skylinewebx.com/?type=restaurant', image: demoRestaurantM },
+      { name: 'Prime Homes Realty', industry: 'Real estate', href: 'https://demo-chatbot.skylinewebx.com/?type=realestate', image: demoRealestateM },
+      { name: 'Glow Studio', industry: 'Beauty salon', href: 'https://demo-chatbot.skylinewebx.com/?type=salon', image: demoSalonM },
+      { name: 'Iron Pulse Fitness', industry: 'Gym & fitness', href: 'https://demo-chatbot.skylinewebx.com/?type=gym', image: demoGymM },
+    ],
     title: 'Multi-Industry Assistant',
     type: 'Dental · Restaurant · Real estate · Salon · Gym',
     summary:
@@ -112,7 +145,7 @@ export const assistants = [
     technologies: ENGINE,
     liveUrl: 'https://demo-chatbot.skylinewebx.com/',
     githubUrl: 'https://github.com/skylinewebx/demo-chatbot',
-    image: { desktop: demoHome, mobile: demoM, alt: 'AI chatbot demos for five industries, and the dental assistant answering about opening hours' },
+    image: { desktop: demoHome, chat: demoDesk, mobile: demoM, alt: 'AI chatbot demos for five industries, and the dental assistant answering about opening hours' },
     accent: '#F97316',
   },
 ]

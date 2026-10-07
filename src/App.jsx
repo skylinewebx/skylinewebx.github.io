@@ -62,7 +62,18 @@ export default function App() {
     }
     const ro = new ResizeObserver(refresh)
     ro.observe(document.body)
-    document.fonts?.ready.then(() => ScrollTrigger.refresh())
+    document.fonts?.ready.then(() => {
+      ScrollTrigger.refresh()
+      // Arriving with a section hash (e.g. /#work from /chatbots/): land on it once pins are measured.
+      const target = window.location.hash.length > 1 && document.querySelector(window.location.hash)
+      if (target) {
+        const align = () => requestAnimationFrame(() => target.scrollIntoView())
+        align()
+        // Pins above may re-measure as content settles: keep the target aligned for a moment.
+        ScrollTrigger.addEventListener('refresh', align)
+        setTimeout(() => ScrollTrigger.removeEventListener('refresh', align), 3000)
+      }
+    })
     window.addEventListener('load', refresh)
     return () => {
       ro.disconnect()
