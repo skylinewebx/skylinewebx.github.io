@@ -6,6 +6,9 @@ export const THEMES = [
   { id: 'mono', label: 'Monochrome', short: 'Mono', swatch: ['#FAFAFA', '#0C0C0C'], meta: '#FAFAFA' },
   { id: 'warm', label: 'Warm', short: 'Warm', swatch: ['#FCEDEA', '#D62D20'], meta: '#FCEDEA' },
   { id: 'dark', label: 'Dark', short: 'Dark', swatch: ['#0C0C0E', '#7098EE'], meta: '#0C0C0E' },
+  { id: 'purple', label: 'Purple', short: 'Purple', swatch: ['#EEE7FF', '#6D28D9'], meta: '#EEE7FF' },
+  { id: 'blue', label: 'Blue', short: 'Blue', swatch: ['#1E3FD8', '#FFD84D'], meta: '#1E3FD8' },
+  { id: 'lightblue', label: 'Light Blue', short: 'Lt Blue', swatch: ['#DDF1FF', '#0284C7'], meta: '#DDF1FF' },
 ]
 const KEY = 'swx-theme'
 const ThemeContext = createContext({ theme: 'skyline', setTheme: () => {}, cycle: () => {} })
@@ -54,14 +57,15 @@ export function ThemeProvider({ children }) {
         zIndex: '200',
         background: old,
         pointerEvents: 'none',
-        clipPath: 'inset(0 0 0 0)',
-        transition: 'clip-path 0.75s cubic-bezier(0.76, 0, 0.24, 1)',
+        transform: 'translate3d(0,0,0)',
+        willChange: 'transform',
+        transition: 'transform 0.85s cubic-bezier(0.76, 0, 0.24, 1)',
       })
       document.body.appendChild(curtain)
       requestAnimationFrame(() => {
         setThemeState(id)
         requestAnimationFrame(() => {
-          curtain.style.clipPath = 'inset(0 100% 0 0)'
+          curtain.style.transform = 'translate3d(-100%,0,0)'
           const done = () => {
             curtain.remove()
             busy.current = false

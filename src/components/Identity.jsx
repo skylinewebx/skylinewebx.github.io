@@ -33,6 +33,7 @@ export default function Identity() {
     const el = section.current
     const p = panel.current
     let progress = 0
+    let shown = 0 // eased copy of progress, so the blob glides rather than steps
     let raf = 0
     let visible = false
     const start = performance.now()
@@ -41,7 +42,9 @@ export default function Identity() {
       const w = el.clientWidth
       const h = el.clientHeight
       const diag = Math.hypot(w, h)
-      const e = gsap.parseEase('power2.inOut')(Math.min(1, progress / 0.85))
+      shown += (progress - shown) * 0.16
+      if (Math.abs(progress - shown) < 0.0005) shown = progress
+      const e = gsap.parseEase('power2.inOut')(Math.min(1, shown / 0.85))
       const cx = w * (0.78 - 0.28 * e)
       const cy = h * (0.62 - 0.12 * e)
       const R = e * diag * 0.95
@@ -49,7 +52,7 @@ export default function Identity() {
     }
     const loop = () => {
       render()
-      raf = visible ? requestAnimationFrame(loop) : 0
+      raf = visible || Math.abs(progress - shown) > 0.0005 ? requestAnimationFrame(loop) : 0
     }
 
     const ctx = gsap.context(() => {
@@ -58,17 +61,17 @@ export default function Identity() {
         start: 'top top',
         end: '+=160%',
         pin: true,
+        anticipatePin: 1,
         scrub: true,
         onUpdate: (self) => {
           progress = self.progress
         },
         onToggle: (self) => {
           visible = self.isActive
-          if (visible && !raf) raf = requestAnimationFrame(loop)
-          render()
+          if (!raf) raf = requestAnimationFrame(loop)
         },
       })
-      gsap.fromTo(token.current, { y: () => window.innerHeight * 0.55, rotate: -28 }, { y: () => -window.innerHeight * 0.6, rotate: 34, ease: 'none', scrollTrigger: { trigger: el, start: 'top top', end: '+=160%', scrub: 0.6 } })
+      gsap.fromTo(token.current, { y: () => window.innerHeight * 0.55, rotate: -28 }, { y: () => -window.innerHeight * 0.6, rotate: 34, ease: 'none', scrollTrigger: { trigger: el, start: 'top top', end: '+=160%', scrub: 0.9 } })
     }, el)
     render()
     return () => {

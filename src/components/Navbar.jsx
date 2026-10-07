@@ -252,7 +252,7 @@ export default function Navbar({ ready = true }) {
             title={`Theme: ${current.label}`}
           >
             <Contrast size={17} strokeWidth={1.75} className="transition-transform duration-500 group-hover:rotate-180" />
-            <span className="meta hidden w-[52px] text-left xl:inline">{current.short}</span>
+            <span className="meta hidden w-[52px] whitespace-nowrap text-left xl:inline">{current.short}</span>
           </button>
         </Cell>
 

@@ -31,7 +31,7 @@ export default function CTA() {
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: 'top top', end: '+=110%', pin: true, scrub: 0.6 } })
+      const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: 'top top', end: '+=110%', pin: true, anticipatePin: 1, scrub: 0.9 } })
       tl.fromTo(type.current, { rotateX: 42, scale: 0.62, yPercent: 12 }, { rotateX: 0, scale: 1.08, yPercent: -18, ease: 'none' }, 0)
       tl.fromTo(emblem.current, { rotate: -40, scale: 0.85 }, { rotate: 25, scale: 1.1, ease: 'none' }, 0)
     }, ref)

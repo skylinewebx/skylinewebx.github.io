@@ -28,6 +28,10 @@ export default {
         sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
+      // Every hover/transition eases out like the scroll reveals (smoother than the stock curve).
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      },
       maxWidth: {
         site: '1440px',
       },

@@ -4,6 +4,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
+// GPU transforms everywhere; don't re-measure when the mobile URL bar shows/hides.
+gsap.config({ force3D: true })
+ScrollTrigger.config({ ignoreMobileResize: true })
 
 const ScrollContext = createContext({ scrollTo: () => {}, stop: () => {}, start: () => {} })
 
@@ -23,7 +26,8 @@ export function ScrollProvider({ children }) {
 
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
-    const lenis = new Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true })
+    // lerp (not a fixed duration) keeps wheel scrolling fluid at any frame rate.
+    const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95, syncTouch: false })
     lenisRef.current = lenis
     lenis.on('scroll', ScrollTrigger.update)
     const tick = (time) => lenis.raf(time * 1000)

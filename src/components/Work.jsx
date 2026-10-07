@@ -4,6 +4,7 @@ import { projects } from '../data/projects'
 import { assistants } from '../data/assistants'
 import BinaryStrip from './ui/BinaryStrip'
 import ProjectIndex from './ProjectIndex'
+import BrandMark from './ui/BrandMark'
 
 const WORD = 'PROJECTS'
 const code = (i, n) => `#SWX-${String(i + 1).padStart(2, '0')}/${String(n).padStart(2, '0')}`
@@ -14,7 +15,7 @@ const code = (i, n) => `#SWX-${String(i + 1).padStart(2, '0')}/${String(n).padSt
 function Columns() {
   const ref = useRef(null)
   const shots = [
-    ...projects.map((p) => ({ src: p.image?.mobile, title: p.title, href: `#project-${p.slug}` })),
+    ...projects.map((p) => ({ src: p.image?.mobile, title: p.title, href: `#project-${p.slug}`, project: p })),
     ...assistants.map((b) => ({ src: b.image.mobile, title: b.title, href: `#assistant-${b.slug}` })),
   ]
   const cols = [[], [], [], [], []]
@@ -26,7 +27,7 @@ function Columns() {
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-col]').forEach((col, i) => {
         const speed = [-18, 10, -30, 6, -22][i]
-        gsap.fromTo(col, { yPercent: speed < 0 ? 4 : -12 }, { yPercent: speed, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: 0.5 } })
+        gsap.fromTo(col, { yPercent: speed < 0 ? 4 : -12 }, { yPercent: speed, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: 0.9 } })
       })
     }, ref)
     return () => ctx.revert()
@@ -36,7 +37,7 @@ function Columns() {
     <div ref={ref} className="inverse relative h-[115vh] min-h-[640px] overflow-hidden bg-foreground" aria-label="Project previews">
       <div className="frame grid h-full grid-cols-2 gap-3 border-background/20 px-3 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
         {cols.map((col, i) => (
-          <div key={i} data-col className={`flex flex-col gap-3 pt-10 md:gap-4 ${i >= 2 ? 'hidden md:flex' : ''} ${i >= 3 ? 'md:hidden lg:flex' : ''}`}>
+          <div key={i} data-col className={`flex flex-col will-change-transform gap-3 pt-10 md:gap-4 ${i >= 2 ? 'hidden md:flex' : ''} ${i >= 3 ? 'md:hidden lg:flex' : ''}`}>
             {[...col, ...col].map((s, k) => (
               <a
                 key={k}
@@ -48,8 +49,8 @@ function Columns() {
                 className="group block overflow-hidden border border-background/15 bg-background/5"
               >
                 <img src={s.src} alt={`${s.title} on mobile`} width={585} height={1266} loading="lazy" decoding="async" className="aspect-[9/16] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]" />
-                <span className="meta flex justify-between px-2 py-2 text-[9px] text-background/70">
-                  <span>{s.title}</span>
+                <span className="meta flex items-center justify-between gap-2 px-2 py-2 text-[9px] text-background/70">
+                  {s.project ? <BrandMark project={s.project} size="xs" className="max-w-[78%] group-hover:-translate-y-px" /> : <span>{s.title}</span>}
                   <span aria-hidden="true">↗</span>
                 </span>
               </a>
@@ -70,7 +71,7 @@ function Pill() {
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
     const ctx = gsap.context(() => {
-      gsap.fromTo(word.current, { yPercent: 18 }, { yPercent: -62, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: 0.4 } })
+      gsap.fromTo(word.current, { yPercent: 18 }, { yPercent: -62, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: 0.8 } })
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -114,7 +115,7 @@ function Wall() {
       const cards = gsap.utils.toArray('[data-card]')
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${cards.length * 55}%`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${cards.length * 55}%`, pin: true, anticipatePin: 1, scrub: 1, invalidateOnRefresh: true },
       })
       // Letters drift up through the word and columns sway.
       tl.fromTo(grid.current, { yPercent: 0 }, { yPercent: -30, duration: cards.length }, 0)
@@ -168,9 +169,10 @@ function Wall() {
             <div className="overflow-hidden border border-background/20 bg-background shadow-[0_40px_80px_-30px_rgb(0_0_0/0.7)]">
               <img src={p.image?.desktopSm} alt={p.image?.alt ?? p.title} width={720} height={450} loading="eager" fetchpriority="low" decoding="async" className="aspect-[16/10] w-full object-cover object-top" />
             </div>
-            <span className="meta mt-2 flex justify-between text-[9.5px] text-background">
-              <span>
-                {p.title} · {p.category.split(' / ')[0]}
+            <span className="meta mt-2.5 flex items-center justify-between gap-3 text-[9.5px] text-background">
+              <span className="flex min-w-0 items-center gap-2.5">
+                <BrandMark project={p} size="sm" className="group-hover:-translate-y-0.5" />
+                <span className="truncate">{p.category.split(' / ')[0]}</span>
               </span>
               <span className="opacity-70">{code(i, projects.length)}</span>
             </span>

@@ -6,6 +6,7 @@
  *   liveUrl    string | null   — live website (primary "View project" link)
  *   githubUrl  string | null   — source code (secondary link, or primary when there is no live site)
  *   image      { desktop, desktopSm, mobile, alt } — real screenshots in src/assets/shots
+ *   logo       { src, ground } — the brand mark from the project's own site + its background colour
  *   accent     project colour, used only for small details
  * }
  *
@@ -41,11 +42,23 @@ import strata from '../assets/shots/strata.webp'
 import strataSm from '../assets/shots/strata-sm.webp'
 import strataM from '../assets/shots/strata-m.webp'
 
+// Brand marks captured from each live site header (src/assets/logos).
+import luminaLogo from '../assets/logos/lumina-dental.webp'
+import noirLogo from '../assets/logos/noir-crumb.webp'
+import emberLogo from '../assets/logos/maison-ember.webp'
+import sliceLogo from '../assets/logos/slice-and-stack.webp'
+import mimoLogo from '../assets/logos/mimo-pet-care.webp'
+import cafeLogo from '../assets/logos/maison-cafe.webp'
+import meridianLogo from '../assets/logos/meridian-watches.webp'
+import sodaLogo from '../assets/logos/sk-squeeze-soda.webp'
+import strataLogo from '../assets/logos/strata-renovation.webp'
+
 const shot = (desktop, desktopSm, mobile, alt) => ({ desktop, desktopSm, mobile, alt })
 
 export const projects = [
   {
     slug: 'lumina-dental',
+    logo: { src: luminaLogo, ground: '#070c14' },
     title: 'Lumina Dental',
     category: 'Dental / Healthcare',
     description:
@@ -59,6 +72,7 @@ export const projects = [
   },
   {
     slug: 'noir-crumb',
+    logo: { src: noirLogo, ground: '#0a0806' },
     title: 'Noir Crumb',
     category: 'Bakery / E-commerce',
     description:
@@ -71,6 +85,7 @@ export const projects = [
   },
   {
     slug: 'maison-ember',
+    logo: { src: emberLogo, ground: '#0e0d0c' },
     title: 'Maison Ember',
     category: 'Hospitality / Fine dining',
     description:
@@ -83,6 +98,7 @@ export const projects = [
   },
   {
     slug: 'slice-and-stack',
+    logo: { src: sliceLogo, ground: '#0c0b0c' },
     title: 'Slice & Stack',
     category: 'Restaurant / Ordering',
     description:
@@ -95,6 +111,7 @@ export const projects = [
   },
   {
     slug: 'mimo-pet-care',
+    logo: { src: mimoLogo, ground: '#f8c9b7' },
     title: 'Mimo Pet Care',
     category: 'Pet care / Grooming',
     description:
@@ -107,6 +124,7 @@ export const projects = [
   },
   {
     slug: 'maison-cafe',
+    logo: { src: cafeLogo, ground: '#e4e0d9' },
     title: 'Maison Cafe',
     category: 'Cafe / Coffee house',
     description:
@@ -119,6 +137,7 @@ export const projects = [
   },
   {
     slug: 'meridian-watches',
+    logo: { src: meridianLogo, ground: '#0a0a0b' },
     title: 'Meridian Watches',
     category: 'Luxury / E-commerce',
     description:
@@ -131,6 +150,7 @@ export const projects = [
   },
   {
     slug: 'sk-squeeze-soda',
+    logo: { src: sodaLogo, ground: '#0b0a0f' },
     title: 'SK Squeeze Soda',
     category: 'Beverage / Storefront',
     description:
@@ -143,6 +163,7 @@ export const projects = [
   },
   {
     slug: 'strata-renovation',
+    logo: { src: strataLogo, ground: '#0c0c0e' },
     title: 'Strata Renovation',
     category: 'Home renovation / Design studio',
     description:

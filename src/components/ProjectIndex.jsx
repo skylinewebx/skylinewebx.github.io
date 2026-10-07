@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import GithubIcon from './ui/GithubIcon'
 import { projects, primaryLink } from '../data/projects'
+import BrandMark from './ui/BrandMark'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -51,7 +52,10 @@ export default function ProjectIndex() {
               <div className="p-4 md:py-5">
                 <p className="meta opacity-60 md:hidden">{String(i + 1).padStart(2, '0')}</p>
                 <h4 className="display mt-1 text-[clamp(1.9rem,3.2vw,2.9rem)] transition-transform duration-500 group-hover:translate-x-1 md:mt-0">{p.title}</h4>
-                <p className="meta mt-2 opacity-60">{p.category}</p>
+                <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+                  <BrandMark project={p} size="md" className="group-hover:-translate-y-0.5 group-hover:shadow-[0_0_0_1px_rgb(var(--background)/0.35),0_10px_20px_-10px_rgb(0_0_0/0.6)]" />
+                  <p className="meta opacity-60">{p.category}</p>
+                </div>
                 <p className="serif mt-3 text-[15.5px] leading-snug opacity-85 md:hidden">{p.description}</p>
               </div>
 
