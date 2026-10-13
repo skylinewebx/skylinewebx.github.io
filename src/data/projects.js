@@ -41,6 +41,12 @@ import sodaM from '../assets/shots/sksqueeze-m.webp'
 import strata from '../assets/shots/strata.webp'
 import strataSm from '../assets/shots/strata-sm.webp'
 import strataM from '../assets/shots/strata-m.webp'
+import vyro from '../assets/shots/vyro.webp'
+import vyroSm from '../assets/shots/vyro-sm.webp'
+import vyroM from '../assets/shots/vyro-m.webp'
+import elzori from '../assets/shots/elzori.webp'
+import elzoriSm from '../assets/shots/elzori-sm.webp'
+import elzoriM from '../assets/shots/elzori-m.webp'
 
 // Brand marks captured from each live site header (src/assets/logos).
 import luminaLogo from '../assets/logos/lumina-dental.webp'
@@ -52,6 +58,8 @@ import cafeLogo from '../assets/logos/maison-cafe.webp'
 import meridianLogo from '../assets/logos/meridian-watches.webp'
 import sodaLogo from '../assets/logos/sk-squeeze-soda.webp'
 import strataLogo from '../assets/logos/strata-renovation.webp'
+import vyroLogo from '../assets/logos/vyro.webp'
+import elzoriLogo from '../assets/logos/elzori.webp'
 
 const shot = (desktop, desktopSm, mobile, alt) => ({ desktop, desktopSm, mobile, alt })
 
@@ -173,6 +181,32 @@ export const projects = [
     githubUrl: null,
     image: shot(strata, strataSm, strataM, 'Strata renovation studio homepage with a walnut kitchen'),
     accent: '#C08457',
+  },
+  {
+    slug: 'vyro',
+    logo: { src: vyroLogo, ground: '#fbc50d' },
+    title: 'VYRO',
+    category: 'Headphones / E-commerce',
+    description:
+      'A bold premium-audio storefront for headphones and wireless earbuds — vivid colour, confident type and a shop built to feel every frequency.',
+    technologies: ['React', 'Vite', 'Tailwind CSS', 'GSAP', 'Framer Motion', 'Lenis', 'Three.js'],
+    liveUrl: 'https://vyro.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/vyro',
+    image: shot(vyro, vyroSm, vyroM, 'VYRO headphones homepage — Feel Every Frequency'),
+    accent: '#FBC50D',
+  },
+  {
+    slug: 'elzori',
+    logo: { src: elzoriLogo, ground: '#2a1608' },
+    title: 'ELZORI',
+    category: 'Café / Restaurant',
+    description:
+      'A luxury coffee house site — rich espresso tones, elegant serif type and splashing coffee cups that set the mood before the first sip.',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'GSAP', 'Lenis'],
+    liveUrl: 'https://elzori.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/elzori',
+    image: shot(elzori, elzoriSm, elzoriM, 'ELZORI café homepage with splashing coffee cups'),
+    accent: '#C97B3C',
   },
 ]
 
