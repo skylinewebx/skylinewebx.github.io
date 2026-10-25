@@ -65,6 +65,8 @@ export default function Identity() {
         scrub: true,
         onUpdate: (self) => {
           progress = self.progress
+          // A jump past the pin (e.g. the Work anchor) never toggles it active; still settle the panel.
+          if (!raf) raf = requestAnimationFrame(loop)
         },
         onToggle: (self) => {
           visible = self.isActive

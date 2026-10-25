@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, prefersReducedMotion, useAnchorClick } from '../lib/scroll'
 import { projects } from '../data/projects'
-import { assistants } from '../data/assistants'
 import BinaryStrip from './ui/BinaryStrip'
 import ProjectIndex from './ProjectIndex'
 import BrandMark from './ui/BrandMark'
@@ -10,60 +9,7 @@ const WORD = 'PROJECTS'
 const code = (i, n) => `#SWX-${String(i + 1).padStart(2, '0')}/${String(n).padStart(2, '0')}`
 
 /* ------------------------------------------------------------------
-   1 · Parallax columns of real phone screenshots (websites + assistants)
-------------------------------------------------------------------- */
-function Columns() {
-  const ref = useRef(null)
-  const shots = [
-    ...projects.map((p) => ({ src: p.image?.mobile, title: p.title, href: `#project-${p.slug}`, project: p })),
-    ...assistants.map((b) => ({ src: b.image.mobile, title: b.title, href: `#assistant-${b.slug}` })),
-  ]
-  const cols = [[], [], [], [], []]
-  shots.forEach((s, i) => cols[i % 5].push(s))
-  const onAnchor = useAnchorClick()
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return undefined
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray('[data-col]').forEach((col, i) => {
-        const speed = [-18, 10, -30, 6, -22][i]
-        gsap.fromTo(col, { yPercent: speed < 0 ? 4 : -12 }, { yPercent: speed, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: 0.9 } })
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
-
-  return (
-    <div ref={ref} className="inverse relative h-[115vh] min-h-[640px] overflow-hidden bg-foreground" aria-label="Project previews">
-      <div className="frame grid h-full grid-cols-2 gap-3 border-background/20 px-3 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
-        {cols.map((col, i) => (
-          <div key={i} data-col className={`flex flex-col will-change-transform gap-3 pt-10 md:gap-4 ${i >= 2 ? 'hidden md:flex' : ''} ${i >= 3 ? 'md:hidden lg:flex' : ''}`}>
-            {[...col, ...col].map((s, k) => (
-              <a
-                key={k}
-                href={s.href}
-                onClick={onAnchor}
-                data-cursor="Open"
-                tabIndex={k >= col.length ? -1 : undefined}
-                aria-hidden={k >= col.length ? 'true' : undefined}
-                className="group block overflow-hidden border border-background/15 bg-background/5"
-              >
-                <img src={s.src} alt={`${s.title} on mobile`} width={585} height={1266} loading="lazy" decoding="async" className="aspect-[9/16] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]" />
-                <span className="meta flex items-center justify-between gap-2 px-2 py-2 text-[9px] text-background/70">
-                  {s.project ? <BrandMark project={s.project} size="xs" className="max-w-[78%] group-hover:-translate-y-px" /> : <span>{s.title}</span>}
-                  <span aria-hidden="true">↗</span>
-                </span>
-              </a>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-/* ------------------------------------------------------------------
-   2 · Paper grid with a pill-shaped window; the word scrolls inside it
+   1 · Paper grid with a pill-shaped window; the word scrolls inside it
 ------------------------------------------------------------------- */
 function Pill() {
   const ref = useRef(null)
@@ -92,7 +38,7 @@ function Pill() {
 }
 
 /* ------------------------------------------------------------------
-   3 · Pinned letter wall; captioned project cards fly across in two lanes
+   2 · Pinned letter wall; captioned project cards fly across in two lanes
 ------------------------------------------------------------------- */
 function Wall() {
   const ref = useRef(null)
@@ -189,7 +135,6 @@ export default function Work() {
       <h2 id="work-heading" className="sr-only">
         Work
       </h2>
-      <Columns />
       <div className="frame">
         <BinaryStrip />
       </div>
