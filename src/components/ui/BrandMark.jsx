@@ -9,7 +9,7 @@ export default function BrandMark({ project, size = 'sm', className = '' }) {
   if (!project.logo) return null
   return (
     <span
-      className={`inline-flex shrink-0 items-center overflow-hidden rounded-[3px] py-[3px] shadow-[0_0_0_1px_rgb(var(--foreground)/0.18),0_6px_14px_-8px_rgb(0_0_0/0.55)] transition-transform duration-500 ease-out ${H[size]} ${className}`}
+      className={`inline-flex max-w-full shrink-0 items-center overflow-hidden rounded-[3px] py-[3px] shadow-[0_0_0_1px_rgb(var(--foreground)/0.18),0_6px_14px_-8px_rgb(0_0_0/0.55)] transition-transform duration-500 ease-out ${H[size]} ${className}`}
       style={{ backgroundColor: project.logo.ground }}
     >
       <img
@@ -19,7 +19,7 @@ export default function BrandMark({ project, size = 'sm', className = '' }) {
         loading="lazy"
         decoding="async"
         draggable="false"
-        className="block h-full w-auto max-w-none select-none [image-rendering:-webkit-optimize-contrast]"
+        className="block h-full w-auto max-w-full select-none object-contain [image-rendering:-webkit-optimize-contrast]"
       />
     </span>
   )

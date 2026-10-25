@@ -90,10 +90,11 @@ function Wall() {
 
   return (
     <div ref={ref} className="inverse dots relative h-[100svh] min-h-[600px] overflow-hidden bg-foreground" aria-label="Project wall">
-      {/* Letter wall */}
-      <div ref={grid} className="absolute inset-x-0 top-0 flex origin-center justify-between" aria-hidden="true">
+      {/* Letter wall: the wrapper and each column are their own GPU layers, so the scroll-scrubbed
+          drift / sway / squeeze never re-rasterises the heavy extruded glyphs. */}
+      <div ref={grid} className="absolute inset-x-0 top-0 flex origin-center justify-between will-change-transform" aria-hidden="true">
         {Array.from({ length: cols }).map((_, c) => (
-          <div key={c} data-wall-col className="display extrude flex flex-col items-center text-[clamp(6.5rem,20vh,13rem)] leading-[0.95]">
+          <div key={c} data-wall-col className="display extrude flex flex-col items-center will-change-transform text-[clamp(6.5rem,20vh,13rem)] leading-[0.95] lg:text-[clamp(8rem,27vh,17rem)]">
             {(WORD + WORD.slice(0, 4)).split('').map((l, r) => (
               <span key={r}>{l}</span>
             ))}
@@ -110,7 +111,7 @@ function Wall() {
             href={`#project-${p.slug}`}
             onClick={onAnchor}
             data-cursor="View"
-            className={`group block ${reduce ? '' : `absolute left-0 w-[min(78vw,470px)] will-change-transform ${i % 2 === 0 ? 'top-[14%]' : 'top-[52%]'}`}`}
+            className={`group block ${reduce ? '' : `absolute left-0 w-[min(78vw,470px)] will-change-transform lg:w-[min(44vw,58vh,680px)] ${i % 2 === 0 ? 'top-[14%] lg:top-[15%]' : 'top-[52%] lg:top-[54%]'}`}`}
           >
             <div className="overflow-hidden border border-background/20 bg-background shadow-[0_40px_80px_-30px_rgb(0_0_0/0.7)]">
               <img src={p.image?.desktopSm} alt={p.image?.alt ?? p.title} width={720} height={450} loading="eager" fetchpriority="low" decoding="async" className="aspect-[16/10] w-full object-cover object-top" />
