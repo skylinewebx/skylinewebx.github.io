@@ -111,16 +111,16 @@ export default function Hero({ ready }) {
 
   return (
     <section id="top" className="relative pt-[calc(var(--nav-h)+28px)]" aria-labelledby="hero-title">
-      <div className="frame relative grid border-b border-border lg:grid-cols-12">
+      <div className="frame relative grid border-b border-border lg:min-h-[calc(100svh-var(--nav-h)-57px)] lg:grid-cols-12">
         {/* Left: identity + headline */}
         <div className="relative overflow-hidden lg:col-span-7 lg:border-r lg:border-border">
           <WarpGrid alpha={0.13} cell={56} />
-          <div className="pad relative pb-10 pt-9 md:pb-14 md:pt-14">
+          <div className="pad relative pb-10 pt-9 md:pb-14 md:pt-14 lg:flex lg:h-full lg:flex-col lg:pb-12 lg:pt-16 2xl:pt-20">
             <motion.p className="meta text-muted" {...show(0.25)}>
               Portfolio ’26 <span className="mx-2">/</span> Design &amp; code
             </motion.p>
 
-            <h1 id="hero-title" className="display mt-5 text-[clamp(1.95rem,10.2vw,4.4rem)] md:text-[8.4vw] lg:text-[clamp(3.4rem,5.9vw,5.3rem)]" aria-label={hero.title.join(' ')}>
+            <h1 id="hero-title" className="display mt-5 text-[clamp(1.95rem,10.2vw,4.4rem)] md:text-[8.4vw] lg:text-[clamp(3.4rem,6vw,5.5rem)]" aria-label={hero.title.join(' ')}>
               {hero.title.map((line, i) => (
                 <span key={line} className="block overflow-hidden pb-[0.04em]" aria-hidden="true">
                   <motion.span
@@ -156,7 +156,7 @@ export default function Hero({ ready }) {
               {hero.copy} Move your cursor to bend the grid.
             </motion.p>
 
-            <ul className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-3 gap-y-4 sm:max-w-[34rem]" aria-label="What the studio does">
+            <ul className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-3 gap-y-4 sm:max-w-[34rem] lg:mt-auto lg:pt-10" aria-label="What the studio does">
               {hero.chips.map((c, k) => (
                 <motion.li
                   key={c}

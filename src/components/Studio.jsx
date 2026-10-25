@@ -75,19 +75,19 @@ function Cell({ k, className = '', children, decor = false }) {
 
 function ServiceCell({ s, n, k, className = '' }) {
   return (
-    <Cell k={k} className={`flex min-h-[128px] flex-col justify-center px-4 py-6 text-center md:min-h-[150px] ${className}`}>
+    <Cell k={k} className={`flex min-h-[128px] flex-col justify-center px-4 py-6 text-center md:min-h-[150px] lg:min-h-[172px] ${className}`}>
       <span className="meta absolute left-3 top-3 text-[9.5px] opacity-60">{String(n).padStart(2, '0')}</span>
-      <h3 className="serif text-[clamp(1.35rem,2.1vw,1.7rem)] leading-[1.05]">{s.title}</h3>
-      <p className="mx-auto mt-2 max-w-[30ch] text-[12.5px] leading-snug opacity-70">{s.description}</p>
+      <h3 className="serif text-[clamp(1.35rem,2.1vw,1.7rem)] leading-[1.05] lg:text-[clamp(1.6rem,1.9vw,2rem)]">{s.title}</h3>
+      <p className="mx-auto mt-2 max-w-[30ch] text-[12.5px] leading-snug opacity-70 lg:text-[13.5px]">{s.description}</p>
     </Cell>
   )
 }
 
 function WordCell({ word, items, k, className = '' }) {
   return (
-    <Cell k={k} className={`flex min-h-[150px] flex-col justify-end p-4 md:min-h-[190px] ${className}`}>
-      <span className="display text-[clamp(3.2rem,8vw,4.6rem)] leading-[0.85]">{word}</span>
-      <span className="serif mt-2 text-[15px] leading-[1.25] opacity-80">
+    <Cell k={k} className={`flex min-h-[150px] flex-col justify-end p-4 md:min-h-[190px] lg:min-h-[220px] ${className}`}>
+      <span className="display text-[clamp(3.2rem,8vw,4.6rem)] leading-[0.85] lg:text-[clamp(4.6rem,5vw,5.8rem)]">{word}</span>
+      <span className="serif mt-2 text-[15px] leading-[1.25] opacity-80 lg:text-[17px]">
         {items.map((t) => (
           <span key={t} className="block">
             ({t})
@@ -124,7 +124,7 @@ export default function Studio() {
     <section id="about" className="relative" aria-labelledby="about-title">
       <div className="frame relative">
         <Corridor />
-        <div className="relative mx-auto max-w-[680px] border-x border-border bg-background lg:my-0">
+        <div className="relative mx-auto max-w-[680px] border-x border-border bg-background lg:my-0 lg:max-w-[780px] 2xl:max-w-[880px]">
           {/* About */}
           <h2 id="about-title" className="label-bar">
             About
@@ -135,7 +135,7 @@ export default function Studio() {
               <p className="meta border border-border px-3 py-1.5 text-[9.5px]">• {hero.status}</p>
             </div>
             <motion.div
-              className="serif mt-7 border-l-[6px] border-foreground pl-4 text-[19px] leading-[1.35] md:text-[21px]"
+              className="serif mt-7 border-l-[6px] border-foreground pl-4 text-[19px] leading-[1.35] md:text-[21px] lg:text-[24px]"
               initial={reduce ? false : { opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '0px 0px -10% 0px' }}
@@ -145,7 +145,7 @@ export default function Studio() {
               <strong className="font-normal italic">Skyline Webx</strong>, based in {brand.location}. {about.copy}
             </motion.div>
             <motion.blockquote
-              className="serif mt-7 border-l border-foreground pl-5 text-[20px] italic leading-[1.3] md:text-[23px]"
+              className="serif mt-7 border-l border-foreground pl-5 text-[20px] italic leading-[1.3] md:text-[23px] lg:text-[26px]"
               initial={reduce ? false : { opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '0px 0px -10% 0px' }}
@@ -200,7 +200,7 @@ export default function Studio() {
                 <span className="meta text-accent group-hover:text-background">{String(i + 1).padStart(2, '0')}</span>
                 <span className="block overflow-hidden">
                   <motion.span
-                    className="display block text-[clamp(2.8rem,9vw,4.2rem)]"
+                    className="display block text-[clamp(2.8rem,9vw,4.2rem)] lg:text-[clamp(4rem,5vw,5rem)]"
                     initial={reduce ? false : { y: '100%' }}
                     whileInView={{ y: '0%' }}
                     viewport={{ once: true, margin: '0px 0px -8% 0px' }}
@@ -209,7 +209,7 @@ export default function Studio() {
                     {step.title}
                   </motion.span>
                 </span>
-                <p className="serif col-start-2 text-[17px] leading-snug opacity-80 md:col-start-auto md:text-right">{step.copy}</p>
+                <p className="serif col-start-2 text-[17px] leading-snug opacity-80 md:col-start-auto md:text-right lg:text-[19px]">{step.copy}</p>
               </li>
             ))}
           </ol>

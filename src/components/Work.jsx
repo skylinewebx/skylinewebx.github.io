@@ -72,10 +72,13 @@ function Wall() {
       cards.forEach((card, i) => {
         const fromRight = i % 2 === 0
         const w = () => card.offsetWidth
+        // Park waiting/finished cards fully off-screen. On wide (laptop) cards the rotateY perspective pulls
+        // the near edge ~14px back into view, so they get a little extra clearance there; phones keep 40px.
+        const edge = () => 40 + (window.innerWidth >= 1024 ? Math.round(w() * 0.1) : 0)
         tl.fromTo(
           card,
-          { x: () => (fromRight ? window.innerWidth + 40 : -w() - 40), rotateY: fromRight ? -16 : 16, rotateZ: fromRight ? 2 : -2 },
-          { x: () => (fromRight ? -w() - 40 : window.innerWidth + 40), rotateY: fromRight ? 10 : -10, rotateZ: fromRight ? -1 : 1, duration: 2.2 },
+          { x: () => (fromRight ? window.innerWidth + edge() : -w() - edge()), rotateY: fromRight ? -16 : 16, rotateZ: fromRight ? 2 : -2 },
+          { x: () => (fromRight ? -w() - edge() : window.innerWidth + edge()), rotateY: fromRight ? 10 : -10, rotateZ: fromRight ? -1 : 1, duration: 2.2 },
           i * 0.95,
         )
       })
