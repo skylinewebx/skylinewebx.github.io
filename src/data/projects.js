@@ -32,9 +32,6 @@ import mimoM from '../assets/shots/mimo-m.webp'
 import cafe from '../assets/shots/cafe.webp'
 import cafeSm from '../assets/shots/cafe-sm.webp'
 import cafeM from '../assets/shots/cafe-m.webp'
-import meridian from '../assets/shots/meridian.webp'
-import meridianSm from '../assets/shots/meridian-sm.webp'
-import meridianM from '../assets/shots/meridian-m.webp'
 import soda from '../assets/shots/sksqueeze.webp'
 import sodaSm from '../assets/shots/sksqueeze-sm.webp'
 import sodaM from '../assets/shots/sksqueeze-m.webp'
@@ -47,6 +44,15 @@ import vyroM from '../assets/shots/vyro-m.webp'
 import elzori from '../assets/shots/elzori.webp'
 import elzoriSm from '../assets/shots/elzori-sm.webp'
 import elzoriM from '../assets/shots/elzori-m.webp'
+import dripyard from '../assets/shots/dripyard.webp'
+import dripyardSm from '../assets/shots/dripyard-sm.webp'
+import dripyardM from '../assets/shots/dripyard-m.webp'
+import nordvale from '../assets/shots/nordvale.webp'
+import nordvaleSm from '../assets/shots/nordvale-sm.webp'
+import nordvaleM from '../assets/shots/nordvale-m.webp'
+import houstonWatch from '../assets/shots/houstonwatch.webp'
+import houstonWatchSm from '../assets/shots/houstonwatch-sm.webp'
+import houstonWatchM from '../assets/shots/houstonwatch-m.webp'
 
 // Brand marks captured from each live site header (src/assets/logos).
 import luminaLogo from '../assets/logos/lumina-dental.webp'
@@ -55,11 +61,13 @@ import emberLogo from '../assets/logos/maison-ember.webp'
 import sliceLogo from '../assets/logos/slice-and-stack.webp'
 import mimoLogo from '../assets/logos/mimo-pet-care.webp'
 import cafeLogo from '../assets/logos/maison-cafe.webp'
-import meridianLogo from '../assets/logos/meridian-watches.webp'
 import sodaLogo from '../assets/logos/sk-squeeze-soda.webp'
 import strataLogo from '../assets/logos/strata-renovation.webp'
 import vyroLogo from '../assets/logos/vyro.webp'
 import elzoriLogo from '../assets/logos/elzori.webp'
+import dripyardLogo from '../assets/logos/dripyard.webp'
+import nordvaleLogo from '../assets/logos/nordvale-store.webp'
+import houstonWatchLogo from '../assets/logos/houston-watch-store.webp'
 
 const shot = (desktop, desktopSm, mobile, alt) => ({ desktop, desktopSm, mobile, alt })
 
@@ -144,19 +152,6 @@ export const projects = [
     accent: '#B9773F',
   },
   {
-    slug: 'meridian-watches',
-    logo: { src: meridianLogo, ground: '#0a0a0b' },
-    title: 'Meridian Watches',
-    category: 'Luxury / E-commerce',
-    description:
-      'An immersive luxury-watch concept with an interactive 3D timepiece, scroll-driven storytelling and a complete shop flow.',
-    technologies: ['Next.js', 'React Three Fiber', 'GSAP', 'Lenis', 'Tailwind CSS'],
-    liveUrl: null,
-    githubUrl: 'https://github.com/skylinewebx/meridian-watches',
-    image: shot(meridian, meridianSm, meridianM, 'Meridian Watches homepage with a 3D gold watch'),
-    accent: '#C9A24A',
-  },
-  {
     slug: 'sk-squeeze-soda',
     logo: { src: sodaLogo, ground: '#0b0a0f' },
     title: 'SK Squeeze Soda',
@@ -207,6 +202,45 @@ export const projects = [
     githubUrl: 'https://github.com/skylinewebx/elzori',
     image: shot(elzori, elzoriSm, elzoriM, 'ELZORI café homepage with splashing coffee cups'),
     accent: '#C97B3C',
+  },
+  {
+    slug: 'dripyard',
+    logo: { src: dripyardLogo, ground: '#0a0303' },
+    title: 'DRIPYARD',
+    category: 'Sneakers / E-commerce',
+    description:
+      'A bold sneaker store for Nike drops — Air Jordan 1, Air Force 1 and SB Dunk — with a cinematic video hero, flash-drop deals and a full cart and checkout.',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Lenis'],
+    liveUrl: 'https://dripyard.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/dripyard',
+    image: shot(dripyard, dripyardSm, dripyardM, 'DRIPYARD sneaker store homepage with a red smoke hero'),
+    accent: '#E11D2E',
+  },
+  {
+    slug: 'nordvale-store',
+    logo: { src: nordvaleLogo, ground: '#f5f2eb' },
+    title: 'NORDVALE',
+    category: 'Apparel / E-commerce',
+    description:
+      'A calm, cream-toned clothing store for hoodies, jackets, trousers and t-shirts — drag-to-turn product views, category showcases and a US checkout.',
+    technologies: ['React', 'Vite', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Framer Motion', 'Lenis'],
+    liveUrl: 'https://nordvale-store.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/nordvale-store',
+    image: shot(nordvale, nordvaleSm, nordvaleM, 'NORDVALE clothing store homepage with a black hoodie'),
+    accent: '#6E4B5A',
+  },
+  {
+    slug: 'houston-watch-store',
+    logo: { src: houstonWatchLogo, ground: '#070f21' },
+    title: 'Houston Watch Store',
+    category: 'Luxury watches / E-commerce',
+    description:
+      'A luxury watch boutique for Houston — hand-picked pieces shown with studio lighting, a live watch configurator and a smooth shop-to-checkout flow.',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'WebGL'],
+    liveUrl: 'https://houstonwatchstore.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/houston-watch-store',
+    image: shot(houstonWatch, houstonWatchSm, houstonWatchM, 'Meridian luxury watch store homepage with a blue diver watch'),
+    accent: '#C9A86A',
   },
 ]
 
