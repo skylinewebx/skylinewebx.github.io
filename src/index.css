@@ -291,6 +291,14 @@
   background: currentColor;
   animation: pulse 2.4s var(--ease-out) infinite;
 }
+.pulse-dot[data-paused='true']::after {
+  animation-play-state: paused;
+}
+/* Set by ScrollProvider during wheel scrolling: no hover hit-testing mid-scroll. */
+html.is-scrolling main,
+html.is-scrolling footer {
+  pointer-events: none;
+}
 @keyframes pulse {
   0% {
     transform: scale(1);

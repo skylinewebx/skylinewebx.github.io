@@ -9,7 +9,7 @@ export default function BrandMark({ project, size = 'sm', className = '' }) {
   if (!project.logo) return null
   return (
     <span
-      className={`inline-flex shrink-0 items-center overflow-hidden rounded-[3px] py-[3px] shadow-[0_0_0_1px_rgb(var(--foreground)/0.18),0_6px_14px_-8px_rgb(0_0_0/0.55)] transition-transform duration-500 ease-out [transform:translateZ(0)] ${H[size]} ${className}`}
+      className={`inline-flex shrink-0 items-center overflow-hidden rounded-[3px] py-[3px] shadow-[0_0_0_1px_rgb(var(--foreground)/0.18),0_6px_14px_-8px_rgb(0_0_0/0.55)] transition-transform duration-500 ease-out ${H[size]} ${className}`}
       style={{ backgroundColor: project.logo.ground }}
     >
       <img

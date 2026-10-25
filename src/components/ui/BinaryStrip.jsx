@@ -13,17 +13,29 @@ export default function BinaryStrip({ className = '' }) {
     const el = ref.current
     const nodes = el.querySelectorAll('[data-bits]')
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    // Mutate each existing text node's data in place: unlike textContent this
+    // inserts no new nodes, so a tick costs a tiny contained repaint instead of
+    // a style recalc (the nav strip is on screen the whole time).
+    const texts = [...nodes].map((n) => {
+      if (!n.firstChild) n.textContent = bits(Number(n.dataset.bits))
+      return [n.firstChild, Number(n.dataset.bits)]
+    })
     let id = 0
-    const run = () => {
-      nodes.forEach((n) => (n.textContent = bits(Number(n.dataset.bits))))
+    let onScreen = false
+    const run = () => texts.forEach(([t, len]) => (t.data = bits(len)))
+    const sync = () => {
+      clearInterval(id)
+      id = onScreen && !document.hidden ? setInterval(run, 140) : 0
     }
     const io = new IntersectionObserver(([e]) => {
-      clearInterval(id)
-      if (e.isIntersecting) id = setInterval(run, 140)
+      onScreen = e.isIntersecting
+      sync()
     })
     io.observe(el)
+    document.addEventListener('visibilitychange', sync)
     return () => {
       io.disconnect()
+      document.removeEventListener('visibilitychange', sync)
       clearInterval(id)
     }
   }, [])
@@ -31,7 +43,7 @@ export default function BinaryStrip({ className = '' }) {
   return (
     <div
       ref={ref}
-      className={`flex h-7 items-center gap-3 overflow-hidden whitespace-nowrap border-y border-border px-3 font-mono text-[9px] leading-none tracking-[0.06em] ${className}`}
+      className={`flex h-7 items-center gap-3 overflow-hidden whitespace-nowrap [contain:layout_paint] border-y border-border px-3 font-mono text-[9px] leading-none tracking-[0.06em] ${className}`}
       aria-hidden="true"
     >
       <span>▸</span>

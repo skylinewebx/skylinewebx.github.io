@@ -33,11 +33,42 @@ export function ScrollProvider({ children }) {
     const tick = (time) => lenis.raf(time * 1000)
     gsap.ticker.add(tick)
     gsap.ticker.lagSmoothing(0)
+
+    // While the wheel scrolls (desktop), content sliding under a still pointer would
+    // flip :hover on large group subtrees every frame. Suspend pointer hit-testing
+    // until scrolling settles; hover returns 150ms after the last scroll frame.
+    const root = document.documentElement
+    let idle = 0
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const onScroll = () => {
+      if (!fine) return
+      if (!idle) root.classList.add('is-scrolling')
+      clearTimeout(idle)
+      idle = setTimeout(() => {
+        root.classList.remove('is-scrolling')
+        idle = 0
+      }, 150)
+    }
+    lenis.on('scroll', onScroll)
+
     return () => {
+      clearTimeout(idle)
+      root.classList.remove('is-scrolling')
       gsap.ticker.remove(tick)
       lenis.destroy()
       lenisRef.current = null
     }
+  }, [])
+
+  // Infinite pulse dots keep the style engine ticking even off-screen: pause them there.
+  useEffect(() => {
+    const dots = document.querySelectorAll('.pulse-dot')
+    if (!dots.length) return undefined
+    const io = new IntersectionObserver((entries) =>
+      entries.forEach((e) => (e.target.dataset.paused = e.isIntersecting ? 'false' : 'true')),
+    )
+    dots.forEach((d) => io.observe(d))
+    return () => io.disconnect()
   }, [])
 
   const scrollTo = useCallback((target, options = {}) => {
