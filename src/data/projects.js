@@ -53,6 +53,9 @@ import nordvaleM from '../assets/shots/nordvale-m.webp'
 import houstonWatch from '../assets/shots/houstonwatch.webp'
 import houstonWatchSm from '../assets/shots/houstonwatch-sm.webp'
 import houstonWatchM from '../assets/shots/houstonwatch-m.webp'
+import gym3d from '../assets/shots/gym3d.webp'
+import gym3dSm from '../assets/shots/gym3d-sm.webp'
+import gym3dM from '../assets/shots/gym3d-m.webp'
 
 // Brand marks captured from each live site header (src/assets/logos).
 import luminaLogo from '../assets/logos/lumina-dental.webp'
@@ -68,6 +71,7 @@ import elzoriLogo from '../assets/logos/elzori.webp'
 import dripyardLogo from '../assets/logos/dripyard.webp'
 import nordvaleLogo from '../assets/logos/nordvale-store.webp'
 import houstonWatchLogo from '../assets/logos/houston-watch-store.webp'
+import gym3dLogo from '../assets/logos/gym3d.webp'
 
 const shot = (desktop, desktopSm, mobile, alt) => ({ desktop, desktopSm, mobile, alt })
 
@@ -241,6 +245,19 @@ export const projects = [
     githubUrl: 'https://github.com/skylinewebx/houston-watch-store',
     image: shot(houstonWatch, houstonWatchSm, houstonWatchM, 'Meridian luxury watch store homepage with a blue diver watch'),
     accent: '#C9A86A',
+  },
+  {
+    slug: 'gym-3d-website',
+    logo: { src: gym3dLogo, ground: '#0b0b10' },
+    title: 'Prime Form Fitness',
+    category: 'Gym / Fitness',
+    description:
+      'A dark, high-energy gym website — bold neon-lime type over a moody training floor, with programs, facilities, pricing, timings and a free-trial lead form.',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    liveUrl: 'https://gym3d.skylinewebx.com/',
+    githubUrl: 'https://github.com/skylinewebx/gym-3d-website',
+    image: shot(gym3d, gym3dSm, gym3dM, 'Prime Form Fitness gym homepage — Train harder, become unstoppable'),
+    accent: '#C6FF3D',
   },
 ]
 
